@@ -1,38 +1,38 @@
 const helper = require("../helper.js");
-const AdresseDao = require("../dao/adresseDao.js");
+const RechnungsadresseDao = require("../dao/rechnungsadresseDao.js");
 const express = require("express");
 var serviceRouter = express.Router();
 
-serviceRouter.get("/adresse/gib/:id", function(request, response) {
-    helper.log("Service Adresse: Client requested one record, id=" + request.params.id);
+serviceRouter.get("/rechnungsadresse/gib/:id", function(request, response) {
+    helper.log("Service Rechnungsadresse: Client requested one record, id=" + request.params.id);
 
-    const adresseDao = new AdresseDao(request.app.locals.dbConnection);
+    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
     try {
-        var result = adresseDao.loadById(request.params.id);
-        helper.log("Service Adresse: Record loaded");
+        var result = rechnungsadresseDao.loadById(request.params.id);
+        helper.log("Service Rechnungsadresse: Record loaded");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
-        helper.logError("Service Adresse: Error loading record by id. Exception occured: " + ex.message);
+        helper.logError("Service Rechnungsadresse: Error loading record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
 
-serviceRouter.get("/adresse/existiert/:id", function(request, response) {
-    helper.log("Service Adresse: Client requested check, if record exists, id=" + request.params.id);
+serviceRouter.get("/rechnungsadresse/existiert/:id", function(request, response) {
+    helper.log("Service Rechnungsadresse: Client requested check, if record exists, id=" + request.params.id);
 
-    const adresseDao = new AdresseDao(request.app.locals.dbConnection);
+    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
     try {
-        var result = adresseDao.exists(request.params.id);
-        helper.log("Service Adresse: Check if record exists by id=" + request.params.id + ", result=" + result);
+        var result = rechnungsadresseDao.exists(request.params.id);
+        helper.log("Service Rechnungsadresse: Check if record exists by id=" + request.params.id + ", result=" + result);
         response.status(200).json(helper.jsonMsgOK({ "id": request.params.id, "existiert": result }));
     } catch (ex) {
-        helper.logError("Service Adresse: Error checking if record exists. Exception occured: " + ex.message);
+        helper.logError("Service Rechnungsadresse: Error checking if record exists. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
 
-serviceRouter.post("/adresse", function(request, response) {
-    helper.log("Service Adresse: Client requested creation of new record");
+serviceRouter.post("/rechnungsadresse", function(request, response) {
+    helper.log("Service Rechnungsadresse: Client requested creation of new record");
 
     var errorMsgs=[];
     if (helper.isUndefined(request.body.bezeichnung)) 
@@ -60,24 +60,24 @@ serviceRouter.post("/adresse", function(request, response) {
         request.body.bilder = [];
     
     if (errorMsgs.length > 0) {
-        helper.log("Service Adresse: Creation not possible, data missing");
+        helper.log("Service Rechnungsadresse: Creation not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
         return;
     }
 
-    const adresseDao = new AdresseDao(request.app.locals.dbConnection);
+    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
     try {
-        var result = adresseDao.create(request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis,  request.body.bilder);
-        helper.log("Service Adresse: Record inserted");
+        var result = rechnungsadresseDao.create(request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis,  request.body.bilder);
+        helper.log("Service Rechnungsadresse: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
-        helper.logError("Service Adresse: Error creating new record. Exception occured: " + ex.message);
+        helper.logError("Service Rechnungsadresse: Error creating new record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
 
-serviceRouter.put("/adresse", function(request, response) {
-    helper.log("Service Adresse: Client requested update of existing record");
+serviceRouter.put("/rechnungsadresse", function(request, response) {
+    helper.log("Service Rechnungsadresse: Client requested update of existing record");
 
     var errorMsgs=[];
     if (helper.isUndefined(request.body.id)) 
@@ -107,33 +107,33 @@ serviceRouter.put("/adresse", function(request, response) {
         request.body.bilder = [];
 
     if (errorMsgs.length > 0) {
-        helper.log("Service Adresse: Update not possible, data missing");
+        helper.log("Service Rechnungsadresse: Update not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Update nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
         return;
     }
 
-    const adresseDao = new AdresseDao(request.app.locals.dbConnection);
+    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
     try {
-        var result = adresseDao.update(request.body.id, request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis, request.body.bilder);
-        helper.log("Service Adresse: Record updated, id=" + request.body.id);
+        var result = rechnungsadresseDao.update(request.body.id, request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis, request.body.bilder);
+        helper.log("Service Rechnungsadresse: Record updated, id=" + request.body.id);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
-        helper.logError("Service Adresse: Error updating record by id. Exception occured: " + ex.message);
+        helper.logError("Service Rechnungsadresse: Error updating record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }    
 });
 
-serviceRouter.delete("/adresse/:id", function(request, response) {
-    helper.log("Service Adresse: Client requested deletion of record, id=" + request.params.id);
+serviceRouter.delete("/rechnungsadresse/:id", function(request, response) {
+    helper.log("Service Rechnungsadresse: Client requested deletion of record, id=" + request.params.id);
 
-    const adresseDao = new AdresseDao(request.app.locals.dbConnection);
+    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
     try {
-        var obj = adresseDao.loadById(request.params.id);
-        adresseDao.delete(request.params.id);
-        helper.log("Service Adresse: Deletion of record successfull, id=" + request.params.id);
+        var obj = rechnungsadresseDao.loadById(request.params.id);
+        rechnungsadresseDao.delete(request.params.id);
+        helper.log("Service Rechnungsadresse: Deletion of record successfull, id=" + request.params.id);
         response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
     } catch (ex) {
-        helper.logError("Service Adresse: Error deleting record. Exception occured: " + ex.message);
+        helper.logError("Service Rechnungsadresse: Error deleting record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });

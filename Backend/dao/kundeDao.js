@@ -1,8 +1,8 @@
 const helper = require("../helper.js");
-const LandDao = require("./landDao.js");
+const PersonDao = require("./personDao.js");
 
 
-class AdresseDao {
+class KundeDao {
 
     constructor(dbConnection) {
         this._conn = dbConnection;
@@ -13,9 +13,9 @@ class AdresseDao {
     }
 
     loadById(id) {
-        const landDao = new LandDao(this._conn);
+        const personDao = new PersonDao(this._conn);
         
-        var sql = "SELECT * FROM Adresse WHERE ID=?";
+        var sql = "SELECT * FROM Kunde WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -23,13 +23,16 @@ class AdresseDao {
             throw new Error("No Record found by id=" + id);
 
         result = helper.objectKeysToLower(result);
+		
+		result.person = personDao.loadById(result.person_id);
+        delete result.person_id;
         
         return result;
     }
 	
 
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Adresse WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Kunde WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -40,8 +43,8 @@ class AdresseDao {
     }
 
     toString() {
-        helper.log("AdresseDao [_conn=" + this._conn + "]");
+        helper.log("KundeDao [_conn=" + this._conn + "]");
     }
 }
 
-module.exports = AdresseDao;
+module.exports = KundeDao;
