@@ -49,8 +49,12 @@ serviceRouter.post("/person", function(request, response) {
     helper.log("Service Person: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
+    if (helper.isUndefined(request.body.anrede)) 
+        errorMsgs.push("anrede fehlt");
+    if (helper.isUndefined(request.body.vorname)) 
+        errorMsgs.push("vorname fehlt");
+    if (helper.isUndefined(request.body.name)) 
+        errorMsgs.push("name fehlt");
     
     if (errorMsgs.length > 0) {
         helper.log("Service Person: Creation not possible, data missing");
@@ -60,7 +64,7 @@ serviceRouter.post("/person", function(request, response) {
 
     const personDao = new PersonDao(request.app.locals.dbConnection);
     try {
-        var result = personDao.create(request.body.bezeichnung);
+        var result = personDao.create(request.body.anrede, request.body.vorname, request.body.name);
         helper.log("Service Person: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -69,45 +73,5 @@ serviceRouter.post("/person", function(request, response) {
     }    
 });
 
-serviceRouter.put("/person", function(request, response) {
-    helper.log("Service Person: Client requested update of existing record");
-
-    var errorMsgs=[];
-    if (helper.isUndefined(request.body.id)) 
-        errorMsgs.push("id fehlt");
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-
-    if (errorMsgs.length > 0) {
-        helper.log("Service Person: Update not possible, data missing");
-        response.status(400).json(helper.jsonMsgError("Update nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
-        return;
-    }
-
-    const personDao = new PersonDao(request.app.locals.dbConnection);
-    try {
-        var result = personDao.update(request.body.id, request.body.bezeichnung);
-        helper.log("Service Person: Record updated, id=" + request.body.id);
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Person: Error updating record by id. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }    
-});
-
-serviceRouter.delete("/person/:id", function(request, response) {
-    helper.log("Service Person: Client requested deletion of record, id=" + request.params.id);
-
-    const personDao = new PersonDao(request.app.locals.dbConnection);
-    try {
-        var obj = personDao.loadById(request.params.id);
-        personDao.delete(request.params.id);
-        helper.log("Service Person: Deletion of record successfull, id=" + request.params.id);
-        response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
-    } catch (ex) {
-        helper.logError("Service Person: Error deleting record. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
 
 module.exports = serviceRouter;
