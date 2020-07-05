@@ -29,8 +29,14 @@
     text-decoration: none;
     color: black;
 }
+.pictures {
+    width: 250px;
+}
 
 #product_name:hover h5 {
     color: grey;
     font-weight: bold;
+}
+.productname_box {
+	height:50px;
 }
