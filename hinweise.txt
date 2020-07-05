@@ -1,0 +1,12 @@
+Diese Aufgabe wurde bearbeitet von Daniel Ballardt, Adrian Kieback, Robin Rist und Peter Schwamborn.
+
+Bitte den Browser Firefox verwenden.
+
+Folgende Seiten wurden dynamisiert:
+ 
+-Kategorieseiten (Alkoholfrei,Bier,Spirituosen,Wein)
+-über die Kategorieseiten, die Produktdetailsicht 
+
+Die index.html Seite wurde noch nicht dynamisiert, somit funktioniert die Dynamisierung der Produktdetailsicht an dieser Stelle auch nicht. 
+
+Danke von den Wilden Winlern. 
