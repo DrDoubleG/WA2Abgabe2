@@ -103,6 +103,9 @@ try {
 	
 	serviceRouter = require("./services/rechnungsadresse.js");
     app.use(TOPLEVELPATH, serviceRouter);
+	
+	serviceRouter = require("./services/bestellposition.js");
+    app.use(TOPLEVELPATH, serviceRouter);
 
 
     
