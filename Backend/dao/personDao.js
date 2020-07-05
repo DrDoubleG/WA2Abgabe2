@@ -1,4 +1,5 @@
 const helper = require("../helper.js");
+const AdresseDao = require("./adresseDao.js");
 
 class PersonDao {
 
@@ -11,6 +12,8 @@ class PersonDao {
     }
 
     loadById(id) {
+        const adresseDao = new AdresseDao(this._conn);
+
         var sql = "SELECT * FROM Person WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
@@ -18,10 +21,25 @@ class PersonDao {
         if (helper.isUndefined(result)) 
             throw new Error("No Record found by id=" + id);
 
-        return helper.objectKeysToLower(result);
+        result = helper.objectKeysToLower(result);
+
+        if (result.anrede == 0) 
+            result.anrede = "Herr";
+        else 
+            result.anrede = "Frau";
+
+        result.geburtstag = helper.formatToGermanDate(helper.parseSQLDateTimeString(result.geburtstag));
+
+        result.adresse = adresseDao.loadById(result.adresseid);
+        delete result.adresseid;
+
+        return result;
     }
 
     loadAll() {
+        const adresseDao = new AdresseDao(this._conn);
+        var addresses = adresseDao.loadAll();
+
         var sql = "SELECT * FROM Person";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
@@ -29,7 +47,26 @@ class PersonDao {
         if (helper.isArrayEmpty(result)) 
             return [];
         
-        return helper.arrayObjectKeysToLower(result);
+        result = helper.arrayObjectKeysToLower(result);
+
+        for (var i = 0; i < result.length; i++) {
+            if (result[i].anrede == 0) 
+                result[i].anrede = "Herr";
+            else 
+                result[i].anrede = "Frau";
+
+            result[i].geburtstag = helper.formatToGermanDate(helper.parseSQLDateTimeString(result[i].geburtstag));
+            
+            for (var element of addresses) {
+                if (element.id == result[i].adresseid) {
+                    result[i].adresse = element;
+                    break;
+                }
+            }
+            delete result[i].adresseid;
+        }
+
+        return result;
     }
 
     exists(id) {
@@ -43,10 +80,10 @@ class PersonDao {
         return false;
     }
 
-    create(bezeichnung = "") {
-        var sql = "INSERT INTO Person (Bezeichnung) VALUES (?)";
+    create(anrede = "Herr", vorname = "", nachname = "", adresseid = 1, telefonnummer = "", email = "", geburtstag = null) {
+        var sql = "INSERT INTO Person (Anrede,Vorname,Nachname,AdresseID,Telefonnummer,Email,Geburtstag) VALUES (?,?,?,?,?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [bezeichnung];
+        var params = [(helper.strStartsWith(anrede, "He") ? 0 : 1), vorname, nachname, adresseid, telefonnummer, email, (helper.isNull(geburtstag) ? null : helper.formatToSQLDate(geburtstag))];
         var result = statement.run(params);
 
         if (result.changes != 1) 
@@ -56,10 +93,10 @@ class PersonDao {
         return newObj;
     }
 
-    update(id, bezeichnung = "") {
-        var sql = "UPDATE Person SET Bezeichnung=? WHERE ID=?";
+    update(id, anrede = "Herr", vorname = "", nachname = "", adresseid = 1, telefonnummer = "", email = "", geburtstag = null) {
+        var sql = "UPDATE Person SET Anrede=?,Vorname=?,Nachname=?,AdresseID=?,Telefonnummer=?,Email=?,Geburtstag=? WHERE ID=?";
         var statement = this._conn.prepare(sql);
-        var params = [bezeichnung, id];
+        var params = [(helper.strStartsWith(anrede, "He") ? 0 : 1), vorname, nachname, adresseid, telefonnummer, email, (helper.isNull(geburtstag) ? null : helper.formatToSQLDate(geburtstag)), id];
         var result = statement.run(params);
 
         if (result.changes != 1) 

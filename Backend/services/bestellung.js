@@ -17,6 +17,20 @@ serviceRouter.get("/bestellung/gib/:id", function(request, response) {
     }
 });
 
+serviceRouter.get("/bestellung/alle/", function(request, response) {
+    helper.log("Service Bestellung: Client requested all records");
+
+    const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
+    try {
+        var result = bestellungDao.loadAll();
+        helper.log("Service Bestellung: Records loaded, count=" + result.length);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Bestellung: Error loading all records. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 serviceRouter.get("/bestellung/existiert/:id", function(request, response) {
     helper.log("Service Bestellung: Client requested check, if record exists, id=" + request.params.id);
 
@@ -35,29 +49,32 @@ serviceRouter.post("/bestellung", function(request, response) {
     helper.log("Service Bestellung: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
-        request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
-        request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis muss eine Zahl sein");
-    if (helper.isUndefined(request.body.kategorie)) {
-        errorMsgs.push("kategorie fehlt");
-    } else if (helper.isUndefined(request.body.kategorie.id)) {
-        errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
-    if (helper.isUndefined(request.body.mehrwertsteuer)) {
-        errorMsgs.push("mehrwertsteuer fehlt");
-    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
-        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
-    
-    if (helper.isUndefined(request.body.bilder)) 
-        request.body.bilder = [];
+    if (helper.isUndefined(request.body.bestellzeitpunkt)) {
+        request.body.bestellzeitpunkt = helper.getNow();
+    } else if (!helper.isGermanDateTimeFormat(request.body.bestellzeitpunkt)) {
+        errorMsgs.push("bestellzeitpunkt hat das falsche Format, erlaubt: dd.mm.jjjj hh.mm.ss");
+    } else {
+        request.body.bestellzeitpunkt = helper.parseGermanDateTimeString(request.body.bestellzeitpunkt);
+    }
+    if (helper.isUndefined(request.body.besteller)) {
+        request.body.besteller = null;
+    } else if (helper.isUndefined(request.body.besteller.id)) {
+        errorMsgs.push("besteller gesetzt, aber id fehlt");
+    } else {
+        request.body.besteller = request.body.besteller.id;
+    }
+    if (helper.isUndefined(request.body.zahlungsart)) {
+        errorMsgs.push("zahlungsart fehlt");
+    } else if (helper.isUndefined(request.body.zahlungsart.id)) {
+        errorMsgs.push("zahlungsart gesetzt, aber id fehlt");
+    }
+    if (helper.isUndefined(request.body.bestellpositionen)) {
+        errorMsgs.push("bestellpositionen fehlen");
+    } else if (!helper.isArray(request.body.bestellpositionen)) {
+        errorMsgs.push("bestellpositionen ist kein array");
+    } else if (request.body.bestellpositionen.length == 0) {
+        errorMsgs.push("bestellpositionen is leer, nichts zu speichern");
+    }
     
     if (errorMsgs.length > 0) {
         helper.log("Service Bestellung: Creation not possible, data missing");
@@ -67,7 +84,7 @@ serviceRouter.post("/bestellung", function(request, response) {
 
     const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
     try {
-        var result = bestellungDao.create(request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis,  request.body.bilder);
+        var result = bestellungDao.create(request.body.bestellzeitpunkt, request.body.besteller, request.body.zahlungsart.id, request.body.bestellpositionen);
         helper.log("Service Bestellung: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -82,29 +99,32 @@ serviceRouter.put("/bestellung", function(request, response) {
     var errorMsgs=[];
     if (helper.isUndefined(request.body.id)) 
         errorMsgs.push("id fehlt");
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
-        request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
-        request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis muss eine Zahl sein");
-    if (helper.isUndefined(request.body.kategorie)) {
-        errorMsgs.push("kategorie fehlt");
-    } else if (helper.isUndefined(request.body.kategorie.id)) {
-        errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
-    if (helper.isUndefined(request.body.mehrwertsteuer)) {
-        errorMsgs.push("mehrwertsteuer fehlt");
-    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
-        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
- 
-    if (helper.isUndefined(request.body.bilder)) 
-        request.body.bilder = [];
+    if (helper.isUndefined(request.body.bestellzeitpunkt)) {
+        request.body.bestellzeitpunkt = helper.getNow();
+    } else if (!helper.isGermanDateTimeFormat(request.body.bestellzeitpunkt)) {
+        errorMsgs.push("bestellzeitpunkt hat das falsche Format, erlaubt: dd.mm.jjjj hh.mm.ss");
+    } else {
+        request.body.bestellzeitpunkt = helper.parseGermanDateTimeString(request.body.bestellzeitpunkt);
+    }
+    if (helper.isUndefined(request.body.besteller)) {
+        request.body.besteller = null;
+    } else if (helper.isUndefined(request.body.besteller.id)) {
+        errorMsgs.push("besteller gesetzt, aber id fehlt");
+    } else {
+        request.body.besteller = request.body.besteller.id;
+    }
+    if (helper.isUndefined(request.body.zahlungsart)) {
+        errorMsgs.push("zahlungsart fehlt");
+    } else if (helper.isUndefined(request.body.zahlungsart.id)) {
+        errorMsgs.push("zahlungsart gesetzt, aber id fehlt");
+    }
+    if (helper.isUndefined(request.body.bestellpositionen)) {
+        errorMsgs.push("bestellpositionen fehlen");
+    } else if (!helper.isArray(request.body.bestellpositionen)) {
+        errorMsgs.push("bestellpositionen ist kein array");
+    } else if (request.body.bestellpositionen.length == 0) {
+        errorMsgs.push("bestellpositionen is leer, nichts zu speichern");
+    }
 
     if (errorMsgs.length > 0) {
         helper.log("Service Bestellung: Update not possible, data missing");
@@ -114,7 +134,7 @@ serviceRouter.put("/bestellung", function(request, response) {
 
     const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
     try {
-        var result = bestellungDao.update(request.body.id, request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis, request.body.bilder);
+        var result = bestellungDao.update(request.body.id, request.body.bestellzeitpunkt, request.body.besteller, request.body.zahlungsart.id, request.body.bestellpositionen);
         helper.log("Service Bestellung: Record updated, id=" + request.body.id);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {

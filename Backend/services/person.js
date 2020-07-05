@@ -49,8 +49,33 @@ serviceRouter.post("/person", function(request, response) {
     helper.log("Service Person: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
+    if (helper.isUndefined(request.body.anrede)) {
+        errorMsgs.push("anrede fehlt");
+    } else if (request.body.anrede.toLowerCase() !== "herr" && request.body.anrede.toLowerCase() !== "frau") {
+        errorMsgs.push("anrede falsch. Herr und Frau sind erlaubt");
+    }        
+    if (helper.isUndefined(request.body.vorname)) 
+        errorMsgs.push("vorname fehlt");
+    if (helper.isUndefined(request.body.nachname)) 
+        errorMsgs.push("nachname fehlt");
+    if (helper.isUndefined(request.body.adresse)) {
+        errorMsgs.push("adresse fehlt");
+    } else if (helper.isUndefined(request.body.adresse.id)) {
+        errorMsgs.push("adresse gesetzt, aber id fehlt");
+    }
+    if (helper.isUndefined(request.body.telefonnummer)) 
+        request.body.telefonnummer = "";
+    if (helper.isUndefined(request.body.email)) 
+        errorMsgs.push("email fehlt");
+    if (!helper.isEmail(request.body.email)) 
+        errorMsgs.push("email hat ein falsches Format");
+    if (helper.isUndefined(request.body.geburtstag)) {
+        request.body.geburtstag = null;
+    } else if (!helper.isGermanDateTimeFormat(request.body.geburtstag)) {
+        errorMsgs.push("geburtstag hat das falsche Format, erlaubt: dd.mm.jjjj");
+    } else {
+        request.body.geburtstag = helper.parseDateTimeString(request.body.geburtstag);
+    }
     
     if (errorMsgs.length > 0) {
         helper.log("Service Person: Creation not possible, data missing");
@@ -60,7 +85,7 @@ serviceRouter.post("/person", function(request, response) {
 
     const personDao = new PersonDao(request.app.locals.dbConnection);
     try {
-        var result = personDao.create(request.body.bezeichnung);
+        var result = personDao.create(request.body.anrede, request.body.vorname, request.body.nachname, request.body.adresse.id, request.body.telefonnummer, request.body.email, request.body.geburtstag);
         helper.log("Service Person: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -74,9 +99,34 @@ serviceRouter.put("/person", function(request, response) {
 
     var errorMsgs=[];
     if (helper.isUndefined(request.body.id)) 
-        errorMsgs.push("id fehlt");
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
+        errorMsgs.push("id missing");
+    if (helper.isUndefined(request.body.anrede)) {
+        errorMsgs.push("anrede fehlt");
+    } else if (request.body.anrede.toLowerCase() !== "herr" && request.body.anrede.toLowerCase() !== "frau") {
+        errorMsgs.push("anrede falsch. Herr und Frau sind erlaubt");
+    }        
+    if (helper.isUndefined(request.body.vorname)) 
+        errorMsgs.push("vorname fehlt");
+    if (helper.isUndefined(request.body.nachname)) 
+        errorMsgs.push("nachname fehlt");
+    if (helper.isUndefined(request.body.adresse)) {
+        errorMsgs.push("adresse fehlt");
+    } else if (helper.isUndefined(request.body.adresse.id)) {
+        errorMsgs.push("adresse gesetzt, aber id fehlt");
+    }
+    if (helper.isUndefined(request.body.telefonnummer)) 
+        request.body.telefonnummer = "";
+    if (helper.isUndefined(request.body.email)) 
+        errorMsgs.push("email fehlt");
+    if (!helper.isEmail(request.body.email)) 
+        errorMsgs.push("email hat ein falsches Format");
+    if (helper.isUndefined(request.body.geburtstag)) {
+        request.body.geburtstag = null;
+    } else if (!helper.isGermanDateTimeFormat(request.body.geburtstag)) {
+        errorMsgs.push("geburtstag hat das falsche Format, erlaubt: dd.mm.jjjj");
+    } else {
+        request.body.geburtstag = helper.parseDateTimeString(request.body.geburtstag);
+    }
 
     if (errorMsgs.length > 0) {
         helper.log("Service Person: Update not possible, data missing");
@@ -86,7 +136,7 @@ serviceRouter.put("/person", function(request, response) {
 
     const personDao = new PersonDao(request.app.locals.dbConnection);
     try {
-        var result = personDao.update(request.body.id, request.body.bezeichnung);
+        var result = personDao.update(request.body.id, request.body.anrede, request.body.vorname, request.body.nachname, request.body.adresse.id, request.body.telefonnummer, request.body.email, request.body.geburtstag);
         helper.log("Service Person: Record updated, id=" + request.body.id);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
