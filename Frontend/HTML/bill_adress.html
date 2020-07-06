@@ -240,6 +240,10 @@
 					var plz_1 = document.getElementById("plz_1").value;
 					var ort_1 = document.getElementById("ort_1").value;
 					var land_1 = document.getElementById("land_1").value;
+					var land_id;
+					var person_id;
+					var kunde_id;
+					var adresse_id;
 					
 					console.log("button senddbtn clicked");
 					
@@ -257,21 +261,7 @@
 						$("#output").html("Ein Fehler ist aufgetreten");
 					});
 
-					var obj1 = {"strasse": strasse_1, "hausnummer": hausnummer_1, "plz": plz_1, "ort": ort_1 ,"land_id": "1"};
-
-					$.ajax({
-						url: "http://localhost:8000/api/adresse",
-						method: "post",
-						contentType: "application/json",
-						data: JSON.stringify(obj1)
-					}).done(function (response) {
-						console.log(response);
-						$("#output").html(JSON.stringify(response));
-					}).fail(function (jqXHR, statusText, error) {
-						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-						$("#output").html("Ein Fehler ist aufgetreten");
-					});
-
+					
 					var obj2 = {"anrede":inputs_form,"vorname":vorname_1,"name":name_1};
 
 					$.ajax({
@@ -287,8 +277,19 @@
 						$("#output").html("Ein Fehler ist aufgetreten");
 					});
 
-
-					var obj3 = {"email": email_1,"geburtsdatum":geburtsdatum_1,"person_id":"1"};
+					$.ajax({
+						url: "http://localhost:8000/api/person/neuste",
+						method: "get",
+						dataType: "json"
+						}).done(function (response) {
+						console.log("Data loaded successfully");
+						console.log(response);
+						
+						var obj = response.daten[0];
+						person_id = obj.id;
+						
+					
+					var obj3 = {"email": email_1,"geburtsdatum":geburtsdatum_1,"person_id":person_id};
 
 					$.ajax({
 						url: "http://localhost:8000/api/kunde",
@@ -301,6 +302,74 @@
 					}).fail(function (jqXHR, statusText, error) {
 						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
 						$("#output").html("Ein Fehler ist aufgetreten");
+					});
+					});
+					
+					$.ajax({
+						url: "http://localhost:8000/api/land/neuste",
+						method: "get",
+						dataType: "json"
+						}).done(function (response) {
+						console.log("Data loaded successfully");
+						console.log(response);
+						
+						var obj = response.daten[0];
+						land_id = obj.id;
+						
+						var obj1 = {"strasse": strasse_1, "hausnummer": hausnummer_1, "plz": plz_1, "ort": ort_1 ,"land_id": land_id};
+
+						$.ajax({
+							url: "http://localhost:8000/api/adresse",
+							method: "post",
+							contentType: "application/json",
+							data: JSON.stringify(obj1)
+						}).done(function (response) {
+							console.log(response);
+							$("#output").html(JSON.stringify(response));
+						}).fail(function (jqXHR, statusText, error) {
+							console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+							$("#output").html("Ein Fehler ist aufgetreten");
+						});
+
+						});
+						
+						$.ajax({
+						url: "http://localhost:8000/api/adresse/neuste",
+						method: "get",
+						dataType: "json"
+						}).done(function (response) {
+						console.log("Data loaded successfully");
+						console.log(response);
+						
+						var resp = response.daten[0];
+						adresse_id = resp.id;
+							$.ajax({
+							url: "http://localhost:8000/api/person/neuste",
+							method: "get",
+							dataType: "json"
+							}).done(function (response) {
+							console.log("Data loaded successfully");
+							console.log(response);
+						
+							var resp2 = response.daten[0];
+							person_id = resp2.id;
+						
+							var obj5 = {"person_id": person_id, "adresse_Id": adresse_id};
+
+							$.ajax({
+								url: "http://localhost:8000/api/lieferadresse",
+								method: "post",
+								contentType: "application/json",
+								data: JSON.stringify(obj5)
+							}).done(function (response) {
+								console.log(response);
+								$("#output").html(JSON.stringify(response));
+							}).fail(function (jqXHR, statusText, error) {
+								console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+								$("#output").html("Ein Fehler ist aufgetreten");
+							});
+
+					});
 					});
 				});
 
