@@ -35,29 +35,10 @@ serviceRouter.post("/lieferadresse", function(request, response) {
     helper.log("Service Lieferadresse: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
-        request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
-        request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis muss eine Zahl sein");
-    if (helper.isUndefined(request.body.kategorie)) {
-        errorMsgs.push("kategorie fehlt");
-    } else if (helper.isUndefined(request.body.kategorie.id)) {
-        errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
-    if (helper.isUndefined(request.body.mehrwertsteuer)) {
-        errorMsgs.push("mehrwertsteuer fehlt");
-    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
-        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
-    
-    if (helper.isUndefined(request.body.bilder)) 
-        request.body.bilder = [];
+    if (helper.isUndefined(request.body.adresse_id)) 
+        errorMsgs.push("adresse fehlt");
+    if (helper.isUndefined(request.body.person_id)) 
+        errorMsgs.push("person fehlt");
     
     if (errorMsgs.length > 0) {
         helper.log("Service Lieferadresse: Creation not possible, data missing");
@@ -67,7 +48,7 @@ serviceRouter.post("/lieferadresse", function(request, response) {
 
     const lieferadresseDao = new LieferadresseDao(request.app.locals.dbConnection);
     try {
-        var result = lieferadresseDao.create(request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis,  request.body.bilder);
+        var result = lieferadresseDao.create(request.body.adresse_id, request.body.person_id, );
         helper.log("Service Lieferadresse: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -76,66 +57,5 @@ serviceRouter.post("/lieferadresse", function(request, response) {
     }
 });
 
-serviceRouter.put("/lieferadresse", function(request, response) {
-    helper.log("Service Lieferadresse: Client requested update of existing record");
-
-    var errorMsgs=[];
-    if (helper.isUndefined(request.body.id)) 
-        errorMsgs.push("id fehlt");
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
-        request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
-        request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis muss eine Zahl sein");
-    if (helper.isUndefined(request.body.kategorie)) {
-        errorMsgs.push("kategorie fehlt");
-    } else if (helper.isUndefined(request.body.kategorie.id)) {
-        errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
-    if (helper.isUndefined(request.body.mehrwertsteuer)) {
-        errorMsgs.push("mehrwertsteuer fehlt");
-    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
-        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
- 
-    if (helper.isUndefined(request.body.bilder)) 
-        request.body.bilder = [];
-
-    if (errorMsgs.length > 0) {
-        helper.log("Service Lieferadresse: Update not possible, data missing");
-        response.status(400).json(helper.jsonMsgError("Update nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
-        return;
-    }
-
-    const lieferadresseDao = new LieferadresseDao(request.app.locals.dbConnection);
-    try {
-        var result = lieferadresseDao.update(request.body.id, request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis, request.body.bilder);
-        helper.log("Service Lieferadresse: Record updated, id=" + request.body.id);
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Lieferadresse: Error updating record by id. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }    
-});
-
-serviceRouter.delete("/lieferadresse/:id", function(request, response) {
-    helper.log("Service Lieferadresse: Client requested deletion of record, id=" + request.params.id);
-
-    const lieferadresseDao = new LieferadresseDao(request.app.locals.dbConnection);
-    try {
-        var obj = lieferadresseDao.loadById(request.params.id);
-        lieferadresseDao.delete(request.params.id);
-        helper.log("Service Lieferadresse: Deletion of record successfull, id=" + request.params.id);
-        response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
-    } catch (ex) {
-        helper.logError("Service Lieferadresse: Error deleting record. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
 
 module.exports = serviceRouter;

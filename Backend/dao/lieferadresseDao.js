@@ -41,10 +41,6 @@ class LieferadresseDao {
         return result;
     }
 
-    
-
-
-
     exists(id) {
         var sql = "SELECT COUNT(ID) AS cnt FROM Lieferadresse WHERE ID=?";
         var statement = this._conn.prepare(sql);
@@ -54,6 +50,18 @@ class LieferadresseDao {
             return true;
 
         return false;
+    }
+    create(adresse_id="", person_id="") {
+        var sql = "INSERT INTO Lieferadresse (Adresse_ID, Person_ID) VALUES (?,?)";
+        var statement = this._conn.prepare(sql);
+        var params = [adresse_id, person_id];
+        var result = statement.run(params);
+
+        if (result.changes != 1) 
+            throw new Error("Could not insert new Record. Data: " + params);
+
+        var newObj = this.loadById(result.lastInsertRowid);
+        return newObj;
     }
 
     toString() {
