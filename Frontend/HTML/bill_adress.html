@@ -99,7 +99,7 @@
 				</div>
 				<div class="float-left col-6 mt-3" id="difference_bill">
 					<input type="checkbox" id="difference_delivery" name="lieferanschrift" value="lieferanschrift"
-						onclick="myFunction()">
+						onclick="myFunction()", oninput="test()">
 					<label for="lieferanschrift">Lieferanschrift weicht von Rechnungsanschrift ab</label>
 				</div>
 				<div class="float-left col-6 mt-3">
@@ -131,7 +131,7 @@
 
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Name</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Name</p> <input type="text" id="name_1"
 						class="float-none m-3 col-6 form-control" placeholder="Name">
 				</div>
 
@@ -146,10 +146,10 @@
 							<p class="name_input">Straße/Hausnr.</p>
 						</div>
 						<div class="col-4" id="straße">
-							<input type="text" class="form-control" placeholder="Straße">
+							<input type="text" id="straße_1" class="form-control" placeholder="Straße">
 						</div>
 						<div class="col-4">
-							<input type="text" class="form-control" placeholder="Hausnummer">
+							<input type="text" id="hausnummer_1" class="form-control" placeholder="Hausnummer">
 						</div>
 					</div>
 				</div>
@@ -186,7 +186,6 @@
 					<p class="float-left m-3 col-3 name_input">Ort</p> <input type="text"
 						class="float-none m-3 col-6 form-control" placeholder="Ort">
 				</div>
-
 
 				<div class="float-left col-6 mt-3">
 					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text"
@@ -230,15 +229,11 @@
 			</div>
 			
 			<script>
-				//var vorn = document.getElementById("vorname_1").value;
-				let vorname_1 = document.querySelector("#vorname_1").value;
+
 				$("#sendbtn").click(function() {
 					console.log("button addtax clicked");
 					
-					//var obj = { "strasse": "3b", "hausnummer": "23", "plz": 72336, "ort": "balinngen"};
 					var obj = {bezeichnung:"jdjddj"}
-
-
 					$.ajax({
 						url: "http://localhost:8000/api/land",
 						method: "post",
@@ -256,7 +251,7 @@
 				$("#sendbtn").click(function() {
 					console.log("button addtax clicked");
 					
-					var obj1 = {"strasse": "3b", "hausnummer": "23", "plz": "72336", "ort": "balinngen","land_id": "2"};
+					var obj1 = {"strasse": "hhaello", "hausnummer": "23", "plz": "72336", "ort": "balinngen","land_id": "2"};
 
 					$.ajax({
 						url: "http://localhost:8000/api/adresse",
@@ -275,7 +270,7 @@
 				$("#sendbtn").click(function() {
 					console.log("button addtax clicked");
 					
-					var obj2 = {"anrede":"herr","vorname":vorname_1,"name":"helmut2"};
+					var obj2 = {"anrede":"ssffsfs","vorname":"dsfsdffs","name":"fdsefsfse"};
 
 					$.ajax({
 						url: "http://localhost:8000/api/person",
@@ -291,10 +286,14 @@
 					});
 				});
 
+				function test () {
+
+				}
+				var email_1 = $('#email_1').val();
 				$("#sendbtn").click(function() {
 					console.log("button addtax clicked");
 					
-					var obj3 = {"email":"hdhdjdjd@","geburtsdatum":"32.20.20","person_id":"1"};
+					var obj3 = {"email": email_1,"geburtsdatum":"32.20.20","person_id":"1"};
 
 					$.ajax({
 						url: "http://localhost:8000/api/kunde",
