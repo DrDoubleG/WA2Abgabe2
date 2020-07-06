@@ -104,7 +104,7 @@
 				</div>
 				<div class="float-left col-6 mt-3">
 					<p class="float-left m-3 col-3 name_input">E-Mail</p>
-					<input type="email" class="float-none m-3 col-6 form-control" placeholder="E-Mail">
+					<input type="email" id="email_1" class="float-none m-3 col-6 form-control" placeholder="E-Mail">
 				</div>
 				<div class="float-left col-6 mt-3" id="text" style="visibility:hidden">
 					<p class="float-left m-3 col-3  name_input">Anrede</p>
@@ -119,7 +119,7 @@
 
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Vorname</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Vorname</p> <input type="text" id="vorname_1"
 						class="float-none m-3 col-6 form-control" placeholder="Vorname">
 				</div>
 
@@ -230,6 +230,8 @@
 			</div>
 			
 			<script>
+				//var vorn = document.getElementById("vorname_1").value;
+				let vorname_1 = document.querySelector("#vorname_1").value;
 				$("#sendbtn").click(function() {
 					console.log("button addtax clicked");
 					
@@ -273,7 +275,7 @@
 				$("#sendbtn").click(function() {
 					console.log("button addtax clicked");
 					
-					var obj2 = {"anrede":"herr","vorname":"helmutz","name":"helmut2"};
+					var obj2 = {"anrede":"herr","vorname":vorname_1,"name":"helmut2"};
 
 					$.ajax({
 						url: "http://localhost:8000/api/person",
