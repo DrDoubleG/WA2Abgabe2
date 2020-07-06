@@ -35,30 +35,12 @@ serviceRouter.post("/rechnungsadresse", function(request, response) {
     helper.log("Service Rechnungsadresse: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
-        request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
-        request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis muss eine Zahl sein");
-    if (helper.isUndefined(request.body.kategorie)) {
-        errorMsgs.push("kategorie fehlt");
-    } else if (helper.isUndefined(request.body.kategorie.id)) {
-        errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
-    if (helper.isUndefined(request.body.mehrwertsteuer)) {
-        errorMsgs.push("mehrwertsteuer fehlt");
-    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
-        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
-    
-    if (helper.isUndefined(request.body.bilder)) 
-        request.body.bilder = [];
-    
+    if (helper.isUndefined(request.body.adresse_id)) 
+            errorMsgs.push("adresse fehlt");
+
+    if (helper.isUndefined(request.body.kunde_id)) 
+            errorMsgs.push("kunde fehlt");
+     
     if (errorMsgs.length > 0) {
         helper.log("Service Rechnungsadresse: Creation not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
@@ -67,75 +49,13 @@ serviceRouter.post("/rechnungsadresse", function(request, response) {
 
     const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
     try {
-        var result = rechnungsadresseDao.create(request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis,  request.body.bilder);
+        var result = rechnungsadresseDao.create(request.body.adresse_id, request.body.kunde_id);
         helper.log("Service Rechnungsadresse: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
         helper.logError("Service Rechnungsadresse: Error creating new record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
-
-serviceRouter.put("/rechnungsadresse", function(request, response) {
-    helper.log("Service Rechnungsadresse: Client requested update of existing record");
-
-    var errorMsgs=[];
-    if (helper.isUndefined(request.body.id)) 
-        errorMsgs.push("id fehlt");
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-    if (helper.isUndefined(request.body.beschreibung)) 
-        request.body.beschreibung = "";
-    if (helper.isUndefined(request.body.details)) 
-        request.body.details = null;
-    if (helper.isUndefined(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis fehlt");
-    if (!helper.isNumeric(request.body.nettopreis)) 
-        errorMsgs.push("nettopreis muss eine Zahl sein");
-    if (helper.isUndefined(request.body.kategorie)) {
-        errorMsgs.push("kategorie fehlt");
-    } else if (helper.isUndefined(request.body.kategorie.id)) {
-        errorMsgs.push("kategorie gesetzt, aber id fehlt");
-    }        
-    if (helper.isUndefined(request.body.mehrwertsteuer)) {
-        errorMsgs.push("mehrwertsteuer fehlt");
-    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
-        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
-    }        
- 
-    if (helper.isUndefined(request.body.bilder)) 
-        request.body.bilder = [];
-
-    if (errorMsgs.length > 0) {
-        helper.log("Service Rechnungsadresse: Update not possible, data missing");
-        response.status(400).json(helper.jsonMsgError("Update nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
-        return;
-    }
-
-    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
-    try {
-        var result = rechnungsadresseDao.update(request.body.id, request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis, request.body.bilder);
-        helper.log("Service Rechnungsadresse: Record updated, id=" + request.body.id);
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Rechnungsadresse: Error updating record by id. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
     }    
-});
-
-serviceRouter.delete("/rechnungsadresse/:id", function(request, response) {
-    helper.log("Service Rechnungsadresse: Client requested deletion of record, id=" + request.params.id);
-
-    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
-    try {
-        var obj = rechnungsadresseDao.loadById(request.params.id);
-        rechnungsadresseDao.delete(request.params.id);
-        helper.log("Service Rechnungsadresse: Deletion of record successfull, id=" + request.params.id);
-        response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
-    } catch (ex) {
-        helper.logError("Service Rechnungsadresse: Error deleting record. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
 });
 
 module.exports = serviceRouter;

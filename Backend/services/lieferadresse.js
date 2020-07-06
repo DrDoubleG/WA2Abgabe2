@@ -36,10 +36,10 @@ serviceRouter.post("/lieferadresse", function(request, response) {
     helper.log("Service Lieferadresse: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.adresse)) 
+    if (helper.isUndefined(request.body.adresse_id)) 
             errorMsgs.push("adresse fehlt");
 
-    if (helper.isUndefined(request.body.person)) 
+    if (helper.isUndefined(request.body.person_id)) 
             errorMsgs.push("person fehlt");
      
     if (errorMsgs.length > 0) {

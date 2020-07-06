@@ -40,8 +40,18 @@ class RechnungsadresseDao {
         return result;
     }
 
-    
+    create(adresse_id = "", kunde_id="") {
+        var sql = "INSERT INTO Rechnungsadresse (Adresse_ID,Kunde_ID) VALUES (?,?)";
+        var statement = this._conn.prepare(sql);
+        var params = [adresse_id, kunde_id];
+        var result = statement.run(params);
 
+        if (result.changes != 1) 
+            throw new Error("Could not insert new Record. Data: " + params);
+
+        var newObj = this.loadById(result.lastInsertRowid);
+        return newObj;
+    }
 
 
     exists(id) {

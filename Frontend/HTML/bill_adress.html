@@ -344,7 +344,7 @@
 						var resp = response.daten[0];
 						adresse_id = resp.id;
 							$.ajax({
-							url: "http://localhost:8000/api/person/neuste",
+							url: "http://localhost:8000/api/kunde/neuste",
 							method: "get",
 							dataType: "json"
 							}).done(function (response) {
@@ -352,17 +352,11 @@
 							console.log(response);
 						
 							var resp2 = response.daten[0];
-							person_id = resp2.id;
-						
+							kunde_id = resp2.id;
 							
-
-							
-
-					});
-					});
-					var obj5 = {"person": "", "adresse": ""};
-					$.ajax({
-								url: "http://localhost:8000/api/lieferadresse",
+							var obj5 = {"kunde_id": kunde_id, "adresse_id": adresse_id};
+							$.ajax({
+								url: "http://localhost:8000/api/rechnungsadresse",
 								method: "post",
 								contentType: "application/json",
 								data: JSON.stringify(obj5)
@@ -373,6 +367,36 @@
 								console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
 								$("#output").html("Ein Fehler ist aufgetreten");
 							});
+							
+							$.ajax({
+							url: "http://localhost:8000/api/person/neuste",
+							method: "get",
+							dataType: "json"
+							}).done(function (response) {
+							console.log("Data loaded successfully");
+							console.log(response);
+						
+							var resp3 = response.daten[0];
+							person_id = resp3.id;
+							
+							var obj6 = {"person_id": person_id, "adresse_id": adresse_id};
+							$.ajax({
+								url: "http://localhost:8000/api/lieferadresse",
+								method: "post",
+								contentType: "application/json",
+								data: JSON.stringify(obj6)
+							}).done(function (response) {
+								console.log(response);
+								$("#output").html(JSON.stringify(response));
+							}).fail(function (jqXHR, statusText, error) {
+								console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+								$("#output").html("Ein Fehler ist aufgetreten");
+							});
+
+							});
+
+					});
+					});
 				});
 
 			</script>
