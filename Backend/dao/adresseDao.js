@@ -38,6 +38,18 @@ class AdresseDao {
 
         return false;
     }
+    create(strasse = "", hausnummer = "", plz = "", ort = "", land_id = "") {
+        var sql = "INSERT INTO Mehrwertsteuer (Strasse,Hausnummer,Plz,Ort,Land_id) VALUES (?,?)";
+        var statement = this._conn.prepare(sql);
+        var params = [strasse,hausnummer,plz,ort,land_id];
+        var result = statement.run(params);
+
+        if (result.changes != 1) 
+            throw new Error("Could not insert new Record. Data: " + params);
+
+        var newObj = this.loadById(result.lastInsertRowid);
+        return newObj;
+    }
 
     toString() {
         helper.log("AdresseDao [_conn=" + this._conn + "]");
