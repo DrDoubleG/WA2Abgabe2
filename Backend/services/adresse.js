@@ -36,16 +36,15 @@ serviceRouter.post("/adresse", function(request, response) {
 
     var errorMsgs=[];
     if (helper.isUndefined(request.body.strasse)) 
-    errorMsgs.push("strasse fehlt");
+        errorMsgs.push("strasse fehlt");
     if (helper.isUndefined(request.body.hausnummer)) 
-    errorMsgs.push("hausnummer fehlt");
+        errorMsgs.push("hausnummer fehlt");
     if (helper.isUndefined(request.body.plz)) 
-    errorMsgs.push("plz fehlt");
+        errorMsgs.push("plz fehlt");
     if (helper.isUndefined(request.body.ort)) 
-    errorMsgs.push("ort fehlt");
+        errorMsgs.push("ort fehlt");
     if (helper.isUndefined(request.body.land_id)) 
-    errorMsgs.push("land_id fehlt");
-          
+        errorMsgs.push("land fehlt");
     
     if (errorMsgs.length > 0) {
         helper.log("Service Adresse: Creation not possible, data missing");
@@ -61,7 +60,7 @@ serviceRouter.post("/adresse", function(request, response) {
     } catch (ex) {
         helper.logError("Service Adresse: Error creating new record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
-    }
+    }    
 });
 
 module.exports = serviceRouter;

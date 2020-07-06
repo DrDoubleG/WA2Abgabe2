@@ -39,9 +39,9 @@ class AdresseDao {
         return false;
     }
     create(strasse = "", hausnummer = "", plz = "", ort = "", land_id = "") {
-        var sql = "INSERT INTO Mehrwertsteuer (Strasse,Hausnummer,Plz,Ort,Land_id) VALUES (?,?)";
+        var sql = "INSERT INTO Adresse (Strasse,Hausnummer,PLZ,Ort,Land_ID) VALUES (?,?,?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [strasse,hausnummer,plz,ort,land_id];
+        var params = [strasse, hausnummer, plz, ort, land_id];
         var result = statement.run(params);
 
         if (result.changes != 1) 

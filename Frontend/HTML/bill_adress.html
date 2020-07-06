@@ -225,10 +225,52 @@
 				</div>
 			</div>
 			<div class="container-fluid">
-				<a href="order_confirmation.html"><button type="button" id="sendbtn"
+				<a><button type="button" id="sendbtn"
 						class="col-6 btn align-self-center btn-danger">Abschicken</button></a>
 			</div>
+			
+			<script>
+				$("#sendbtn").click(function() {
+					console.log("button addtax clicked");
+					
+					//var obj = { "strasse": "3b", "hausnummer": "23", "plz": 72336, "ort": "balinngen"};
+					var obj = {bezeichnung:"jdjddj"}
 
+
+					$.ajax({
+						url: "http://localhost:8000/api/land",
+						method: "post",
+						contentType: "application/json",
+						data: JSON.stringify(obj)
+					}).done(function (response) {
+						console.log(response);
+						$("#output").html(JSON.stringify(response));
+					}).fail(function (jqXHR, statusText, error) {
+						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+						$("#output").html("Ein Fehler ist aufgetreten");
+					});
+				});
+
+				$("#sendbtn").click(function() {
+					console.log("button addtax clicked");
+					
+					var obj1 = {"strasse": "3b", "hausnummer": "23", "plz": "72336", "ort": "balinngen","land_id": "2"};
+
+					$.ajax({
+						url: "http://localhost:8000/api/adresse",
+						method: "post",
+						contentType: "application/json",
+						data: JSON.stringify(obj1)
+					}).done(function (response) {
+						console.log(response);
+						$("#output").html(JSON.stringify(response));
+					}).fail(function (jqXHR, statusText, error) {
+						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+						$("#output").html("Ein Fehler ist aufgetreten");
+					});
+				});
+
+			</script>
 
 			</div>
 		</form>
