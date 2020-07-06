@@ -31,15 +31,17 @@ serviceRouter.get("/lieferadresse/existiert/:id", function(request, response) {
     }
 });
 
+
 serviceRouter.post("/lieferadresse", function(request, response) {
     helper.log("Service Lieferadresse: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.adresse_id)) 
-        errorMsgs.push("adresse fehlt");
-    if (helper.isUndefined(request.body.person_id)) 
-        errorMsgs.push("person fehlt");
-    
+    if (helper.isUndefined(request.body.adresse)) 
+            errorMsgs.push("adresse fehlt");
+
+    if (helper.isUndefined(request.body.person)) 
+            errorMsgs.push("person fehlt");
+     
     if (errorMsgs.length > 0) {
         helper.log("Service Lieferadresse: Creation not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
@@ -48,13 +50,13 @@ serviceRouter.post("/lieferadresse", function(request, response) {
 
     const lieferadresseDao = new LieferadresseDao(request.app.locals.dbConnection);
     try {
-        var result = lieferadresseDao.create(request.body.adresse_id, request.body.person_id, );
+        var result = lieferadresseDao.create(request.body.adresse_id, request.body.person_id);
         helper.log("Service Lieferadresse: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
         helper.logError("Service Lieferadresse: Error creating new record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
-    }
+    }    
 });
 
 

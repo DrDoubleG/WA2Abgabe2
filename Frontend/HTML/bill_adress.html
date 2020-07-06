@@ -354,9 +354,14 @@
 							var resp2 = response.daten[0];
 							person_id = resp2.id;
 						
-							var obj5 = {"person_id": person_id, "adresse_Id": adresse_id};
+							
 
-							$.ajax({
+							
+
+					});
+					});
+					var obj5 = {"person": "", "adresse": ""};
+					$.ajax({
 								url: "http://localhost:8000/api/lieferadresse",
 								method: "post",
 								contentType: "application/json",
@@ -368,9 +373,6 @@
 								console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
 								$("#output").html("Ein Fehler ist aufgetreten");
 							});
-
-					});
-					});
 				});
 
 			</script>

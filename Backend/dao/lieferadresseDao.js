@@ -51,10 +51,11 @@ class LieferadresseDao {
 
         return false;
     }
-    create(adresse_id="", person_id="") {
-        var sql = "INSERT INTO Lieferadresse (Adresse_ID, Person_ID) VALUES (?,?)";
+
+    create(adresse_Id = "", person_Id ="") {
+        var sql = "INSERT INTO Lieferadresse (Adresse_ID,Person_ID) VALUES (?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [adresse_id, person_id];
+        var params = [adresse_Id, person_Id];
         var result = statement.run(params);
 
         if (result.changes != 1) 
