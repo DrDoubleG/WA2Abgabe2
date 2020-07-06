@@ -73,5 +73,19 @@ serviceRouter.post("/person", function(request, response) {
     }    
 });
 
+serviceRouter.get("/person/neuste", function(request, response) {
+    helper.log("Service Land: Client requested all records");
+
+    const personDao = new PersonDao(request.app.locals.dbConnection);
+    try {
+        var result = personDao.selectLastID();
+        helper.log("Service Person: Records loaded, count=" + result.length);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Person: Error loading all records. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 
 module.exports = serviceRouter;

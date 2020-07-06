@@ -55,6 +55,17 @@ class PersonDao {
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
+    selectLastID(){
+        var sql = "SELECT id FROM Person ORDER BY id DESC LIMIT 1";
+        var statement = this._conn.prepare(sql);
+        var result = statement.all();
+
+        if (helper.isArrayEmpty(result)) 
+            return [];
+        
+        return helper.arrayObjectKeysToLower(result);
+    }
+
 
     toString() {
         helper.log("PersonDao [_conn=" + this._conn + "]");

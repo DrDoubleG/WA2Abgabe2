@@ -69,5 +69,19 @@ serviceRouter.post("/land", function(request, response) {
     }    
 });
 
+serviceRouter.get("/land/neuste", function(request, response) {
+    helper.log("Service Land: Client requested all records");
+
+    const landDao = new LandDao(request.app.locals.dbConnection);
+    try {
+        var result = landDao.selectLastID();
+        helper.log("Service Land: Records loaded, count=" + result.length);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Land: Error loading all records. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 
 module.exports = serviceRouter;
