@@ -41,6 +41,18 @@ class KundeDao {
 
         return false;
     }
+    create(email = "", geburtsdatum = "", person_id = "") {
+        var sql = "INSERT INTO Kunde (Email,Geburtsdatum,Person_id) VALUES (?,?,?)";
+        var statement = this._conn.prepare(sql);
+        var params = [email,geburtsdatum,person_id];
+        var result = statement.run(params);
+
+        if (result.changes != 1) 
+            throw new Error("Could not insert new Record. Data: " + params);
+
+        var newObj = this.loadById(result.lastInsertRowid);
+        return newObj;
+    }
 
     toString() {
         helper.log("KundeDao [_conn=" + this._conn + "]");
