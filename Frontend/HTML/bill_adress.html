@@ -91,15 +91,14 @@
 					<p class="float-left m-3 col-3  name_input">Anrede</p>
 
 					<select class="form-control m-3" id="inputs_form">
-						<option selected>Anrede</option>
-						<option>Herr</option>
+						<option selected>Herr</option>
 						<option>Frau</option>
 						<option>Andere</option>
 					</select>
 				</div>
 				<div class="float-left col-6 mt-3" id="difference_bill">
 					<input type="checkbox" id="difference_delivery" name="lieferanschrift" value="lieferanschrift"
-						onclick="myFunction()", oninput="test()">
+						onclick="myFunction()">
 					<label for="lieferanschrift">Lieferanschrift weicht von Rechnungsanschrift ab</label>
 				</div>
 				<div class="float-left col-6 mt-3">
@@ -110,8 +109,7 @@
 					<p class="float-left m-3 col-3  name_input">Anrede</p>
 
 					<select class="form-control m-3 " id="inputs_form">
-						<option selected>Anrede</option>
-						<option>Herr</option>
+						<option selected>Herr</option>
 						<option>Frau</option>
 						<option>Andere</option>
 					</select>
@@ -146,7 +144,7 @@
 							<p class="name_input">Straße/Hausnr.</p>
 						</div>
 						<div class="col-4" id="straße">
-							<input type="text" id="straße_1" class="form-control" placeholder="Straße">
+							<input type="text" id="strasse_1" class="form-control" placeholder="Straße">
 						</div>
 						<div class="col-4">
 							<input type="text" id="hausnummer_1" class="form-control" placeholder="Hausnummer">
@@ -169,7 +167,7 @@
 
 
 				<div class="float-left col-6 mt-4">
-					<p class="float-left m-3 col-3 name_input">PLZ</p> <input type="number"
+					<p class="float-left m-3 col-3 name_input">PLZ</p> <input type="number" id="plz_1"
 						class="float-none m-3 col-6 form-control" placeholder="PLZ">
 				</div>
 				<div class="float-left col-6 mt-4" id="text5" style="visibility:hidden">
@@ -179,7 +177,7 @@
 
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Ort</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Ort</p> <input type="text" id="ort_1"
 						class="float-none m-3 col-6 form-control" placeholder="Ort">
 				</div>
 				<div class="float-left col-6 mt-3" id="text6" style="visibility:hidden">
@@ -187,17 +185,18 @@
 						class="float-none m-3 col-6 form-control" placeholder="Ort">
 				</div>
 
+
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text" id="land_1"
 						class="float-none m-3 col-6 form-control" placeholder="Land">
 				</div>
 				<div class="float-left col-6 mt-3" id="text7" style="visibility:hidden">
-					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text" 
 						class="float-none m-3 col-6 form-control" placeholder="Land">
 				</div>
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Geburtsdatum</p> <input type="date"
+					<p class="float-left m-3 col-3 name_input">Geburtsdatum</p> <input type="date" id="geburtsdatum_1"
 						class="float-none m-3 col-6 form-control" placeholder="Geburtsdatum">
 				</div>
 				<div class="float-left col-6 mt-3 distance">
@@ -229,11 +228,24 @@
 			</div>
 			
 			<script>
-
+	
 				$("#sendbtn").click(function() {
-					console.log("button addtax clicked");
+					var vorname_1 = document.getElementById("vorname_1").value;
+					var email_1 = document.getElementById("email_1").value;
+					var geburtsdatum_1 = document.getElementById("geburtsdatum_1").value;
+					var name_1 = document.getElementById("name_1").value;
+					var inputs_form = document.getElementById("inputs_form").value;
+					var strasse_1 = document.getElementById("strasse_1").value;
+					var hausnummer_1 = document.getElementById("hausnummer_1").value;
+					var plz_1 = document.getElementById("plz_1").value;
+					var ort_1 = document.getElementById("ort_1").value;
+					var land_1 = document.getElementById("land_1").value;
 					
-					var obj = {bezeichnung:"jdjddj"}
+
+
+					console.log("button senddbtn clicked");
+					
+					var obj = {bezeichnung: land_1}
 					$.ajax({
 						url: "http://localhost:8000/api/land",
 						method: "post",
@@ -246,12 +258,8 @@
 						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
 						$("#output").html("Ein Fehler ist aufgetreten");
 					});
-				});
 
-				$("#sendbtn").click(function() {
-					console.log("button addtax clicked");
-					
-					var obj1 = {"strasse": "hhaello", "hausnummer": "23", "plz": "72336", "ort": "balinngen","land_id": "2"};
+					var obj1 = {"strasse": strasse_1, "hausnummer": hausnummer_1, "plz": plz_1, "ort": ort_1 ,"land_id": "1"};
 
 					$.ajax({
 						url: "http://localhost:8000/api/adresse",
@@ -265,12 +273,8 @@
 						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
 						$("#output").html("Ein Fehler ist aufgetreten");
 					});
-				});
 
-				$("#sendbtn").click(function() {
-					console.log("button addtax clicked");
-					
-					var obj2 = {"anrede":"ssffsfs","vorname":"dsfsdffs","name":"fdsefsfse"};
+					var obj2 = {"anrede":inputs_form,"vorname":vorname_1,"name":name_1};
 
 					$.ajax({
 						url: "http://localhost:8000/api/person",
@@ -284,16 +288,9 @@
 						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
 						$("#output").html("Ein Fehler ist aufgetreten");
 					});
-				});
 
-				function test () {
 
-				}
-				var email_1 = $('#email_1').val();
-				$("#sendbtn").click(function() {
-					console.log("button addtax clicked");
-					
-					var obj3 = {"email": email_1,"geburtsdatum":"32.20.20","person_id":"1"};
+					var obj3 = {"email": email_1,"geburtsdatum":geburtsdatum_1,"person_id":"1"};
 
 					$.ajax({
 						url: "http://localhost:8000/api/kunde",
