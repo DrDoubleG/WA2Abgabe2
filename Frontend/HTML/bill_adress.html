@@ -270,6 +270,44 @@
 					});
 				});
 
+				$("#sendbtn").click(function() {
+					console.log("button addtax clicked");
+					
+					var obj2 = {"anrede":"herr","vorname":"helmutz","name":"helmut2"};
+
+					$.ajax({
+						url: "http://localhost:8000/api/person",
+						method: "post",
+						contentType: "application/json",
+						data: JSON.stringify(obj2)
+					}).done(function (response) {
+						console.log(response);
+						$("#output").html(JSON.stringify(response));
+					}).fail(function (jqXHR, statusText, error) {
+						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+						$("#output").html("Ein Fehler ist aufgetreten");
+					});
+				});
+
+				$("#sendbtn").click(function() {
+					console.log("button addtax clicked");
+					
+					var obj3 = {"email":"hdhdjdjd@","geburtsdatum":"32.20.20","person_id":"1"};
+
+					$.ajax({
+						url: "http://localhost:8000/api/kunde",
+						method: "post",
+						contentType: "application/json",
+						data: JSON.stringify(obj3)
+					}).done(function (response) {
+						console.log(response);
+						$("#output").html(JSON.stringify(response));
+					}).fail(function (jqXHR, statusText, error) {
+						console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+						$("#output").html("Ein Fehler ist aufgetreten");
+					});
+				});
+
 			</script>
 
 			</div>
