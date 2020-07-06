@@ -6,10 +6,16 @@
 .street {
 	margin-left: 22px;
 }
-
 #inputs_form {
 	width: 42%;
 }
+#inputs_form1 {
+	width: 42%;
+}
+#inputs_form2 {
+	width: 42%;
+}
+
 
 .distance {
 	padding-bottom: 10px;
