@@ -47,6 +47,18 @@ class BestellpositionDao {
 
         return false;
     }
+    create(menge= "",produkt_id="",bestellung_id="") {
+        var sql = "INSERT INTO Bestellposition(menge,Produkt_ID,Bestellung_ID) VALUES (?,?,?)";
+        var statement = this._conn.prepare(sql);
+        var params = [menge,produkt_id,bestellung_id];
+        var result = statement.run(params);
+
+        if (result.changes != 1) 
+            throw new Error("Could not insert new Record. Data: " + params);
+
+        var newObj = this.loadById(result.lastInsertRowid);
+        return newObj;
+    }
 
     toString() {
         helper.log("BestellpositionDao [_conn=" + this._conn + "]");
