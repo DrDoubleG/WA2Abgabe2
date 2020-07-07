@@ -49,13 +49,30 @@ serviceRouter.post("/bestellposition", function(request, response) {
     helper.log("Service Bestellposition: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.menge)) 
-        errorMsgs.push("menge fehlt");
-    if (helper.isUndefined(request.body.produkt_id)) 
-        errorMsgs.push("produkt fehlt");
-    if (helper.isUndefined(request.body.bestellung_id)) 
-        errorMsgs.push("bestellung fehlt");
-
+    if (helper.isUndefined(request.body.bezeichnung)) 
+        errorMsgs.push("bezeichnung fehlt");
+    if (helper.isUndefined(request.body.beschreibung)) 
+        request.body.beschreibung = "";
+    if (helper.isUndefined(request.body.details)) 
+        request.body.details = null;
+    if (helper.isUndefined(request.body.nettopreis)) 
+        errorMsgs.push("nettopreis fehlt");
+    if (!helper.isNumeric(request.body.nettopreis)) 
+        errorMsgs.push("nettopreis muss eine Zahl sein");
+    if (helper.isUndefined(request.body.kategorie)) {
+        errorMsgs.push("kategorie fehlt");
+    } else if (helper.isUndefined(request.body.kategorie.id)) {
+        errorMsgs.push("kategorie gesetzt, aber id fehlt");
+    }        
+    if (helper.isUndefined(request.body.mehrwertsteuer)) {
+        errorMsgs.push("mehrwertsteuer fehlt");
+    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
+        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
+    }        
+    
+    if (helper.isUndefined(request.body.bilder)) 
+        request.body.bilder = [];
+    
     if (errorMsgs.length > 0) {
         helper.log("Service Bestellposition: Creation not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
@@ -64,11 +81,73 @@ serviceRouter.post("/bestellposition", function(request, response) {
 
     const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
     try {
-        var result = bestellpositionDao.create(request.body.menge, request.body.produkt_id, request.body.bestellung_id);
+        var result = bestellpositionDao.create(request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis,  request.body.bilder);
         helper.log("Service Bestellposition: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
         helper.logError("Service Bestellposition: Error creating new record. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
+serviceRouter.put("/bestellposition", function(request, response) {
+    helper.log("Service Bestellposition: Client requested update of existing record");
+
+    var errorMsgs=[];
+    if (helper.isUndefined(request.body.id)) 
+        errorMsgs.push("id fehlt");
+    if (helper.isUndefined(request.body.bezeichnung)) 
+        errorMsgs.push("bezeichnung fehlt");
+    if (helper.isUndefined(request.body.beschreibung)) 
+        request.body.beschreibung = "";
+    if (helper.isUndefined(request.body.details)) 
+        request.body.details = null;
+    if (helper.isUndefined(request.body.nettopreis)) 
+        errorMsgs.push("nettopreis fehlt");
+    if (!helper.isNumeric(request.body.nettopreis)) 
+        errorMsgs.push("nettopreis muss eine Zahl sein");
+    if (helper.isUndefined(request.body.kategorie)) {
+        errorMsgs.push("kategorie fehlt");
+    } else if (helper.isUndefined(request.body.kategorie.id)) {
+        errorMsgs.push("kategorie gesetzt, aber id fehlt");
+    }        
+    if (helper.isUndefined(request.body.mehrwertsteuer)) {
+        errorMsgs.push("mehrwertsteuer fehlt");
+    } else if (helper.isUndefined(request.body.mehrwertsteuer.id)) {
+        errorMsgs.push("mehrwertsteuer gesetzt, aber id fehlt");
+    }        
+ 
+    if (helper.isUndefined(request.body.bilder)) 
+        request.body.bilder = [];
+
+    if (errorMsgs.length > 0) {
+        helper.log("Service Bestellposition: Update not possible, data missing");
+        response.status(400).json(helper.jsonMsgError("Update nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
+        return;
+    }
+
+    const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
+    try {
+        var result = bestellpositionDao.update(request.body.id, request.body.kategorie.id, request.body.bezeichnung, request.body.beschreibung, request.body.mehrwertsteuer.id, request.body.details, request.body.nettopreis, request.body.bilder);
+        helper.log("Service Bestellposition: Record updated, id=" + request.body.id);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Bestellposition: Error updating record by id. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }    
+});
+
+serviceRouter.delete("/bestellposition/:id", function(request, response) {
+    helper.log("Service Bestellposition: Client requested deletion of record, id=" + request.params.id);
+
+    const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
+    try {
+        var obj = bestellpositionDao.loadById(request.params.id);
+        bestellpositionDao.delete(request.params.id);
+        helper.log("Service Bestellposition: Deletion of record successfull, id=" + request.params.id);
+        response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
+    } catch (ex) {
+        helper.logError("Service Bestellposition: Error deleting record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });

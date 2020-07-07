@@ -3,6 +3,7 @@ const ZahlungsartDao = require("./zahlungsartDao.js");
 const LieferadresseDao = require("./lieferadresseDao.js");
 const RechnungsadresseDao = require("./rechnungsadresseDao.js");
 
+
 class BestellungDao {
 
     constructor(dbConnection) {
@@ -42,6 +43,8 @@ class BestellungDao {
         return result;
     }
 
+
+
     exists(id) {
         var sql = "SELECT COUNT(ID) AS cnt FROM Bestellung WHERE ID=?";
         var statement = this._conn.prepare(sql);
@@ -51,19 +54,6 @@ class BestellungDao {
             return true;
 
         return false;
-    }
-
-    create(bestellzeitpunkt= "",zahlungsart_id="",lieferadresse_id="",rechnungsadresse_id="") {
-        var sql = "INSERT INTO Bestellung (Bestellzeitpunkt, Zahlungsart_ID, Lieferadresse_ID, Rechnungsadresse_ID) VALUES (?,?,?,?)";
-        var statement = this._conn.prepare(sql);
-        var params = [bestellzeitpunkt, zahlungsart_id, lieferadresse_id, rechnungsadresse_id];
-        var result = statement.run(params);
-
-        if (result.changes != 1) 
-            throw new Error("Could not insert new Record. Data: " + params);
-
-        var newObj = this.loadById(result.lastInsertRowid);
-        return newObj;
     }
 
     toString() {

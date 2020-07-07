@@ -6,7 +6,7 @@ function Add(){
 		          var bestellposition = {
                 'Produkt': {
                     'Id': getCookie("objectCookie"),
-                   
+                    'Titel': 'Kekseeee'
                 }, 
                 'Menge': 1
 				};
@@ -20,7 +20,7 @@ function Add(){
 	   
 	    var hinzufuegen = {
                 'Id': getCookie("objectCookie"),
-                
+                'Titel': 'Kekseeeeeeee'
             };
 	   
 			var found = false;
