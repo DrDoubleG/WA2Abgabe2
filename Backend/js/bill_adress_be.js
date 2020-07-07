@@ -1,4 +1,4 @@
-$("#sendbtn").click(function() {
+		function getData() {
 				
 					var checkBox = document.getElementById("difference_delivery");
 				if (checkBox.checked == true){
@@ -441,4 +441,4 @@ $("#sendbtn").click(function() {
 					});
 					});
 				}
-				});
+				}
