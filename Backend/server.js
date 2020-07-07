@@ -94,7 +94,21 @@ try {
 
     serviceRouter = require("./services/bestellung.js");
     app.use(TOPLEVELPATH, serviceRouter);
+	
+	serviceRouter = require("./services/kunde.js");
+    app.use(TOPLEVELPATH, serviceRouter);
+	
+	serviceRouter = require("./services/lieferadresse.js");
+    app.use(TOPLEVELPATH, serviceRouter);
+	
+	serviceRouter = require("./services/rechnungsadresse.js");
+    app.use(TOPLEVELPATH, serviceRouter);
+	
+	serviceRouter = require("./services/bestellposition.js");
+    app.use(TOPLEVELPATH, serviceRouter);
 
+    serviceRouter = require("./services/search.js");
+    app.use(TOPLEVELPATH, serviceRouter);
     
 } catch (ex) {
     helper.logError(ex);

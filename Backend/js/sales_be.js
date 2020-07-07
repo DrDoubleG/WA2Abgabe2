@@ -30,7 +30,7 @@ $(document).ready(function () {
         content += '</div>';
         content += '<div class="row">';
         content += '<p class="item-price col-sm-6" id="price_product"> <span>' + bruttopreis + '&#x20ac</span></p>';
-        content += '<a class="col-sm-2"><img class="shoppingCart2" src="../pictures/commerce-and-shopping-1.png" alt="Einkaufswagen" onclick="Add()"></a>';
+        content += '<a class="col-sm-2"><img class="shoppingCart2" src="../pictures/commerce-and-shopping-1.png" alt="Einkaufswagen" onclick="checkCookie('+obj.id.toString()+');Add()"></a>';
         content += '</div>';
         content += '</div>';
         content += '</div>';
@@ -65,7 +65,7 @@ $(document).ready(function () {
                 content += '</div>';
                 content += '<div class="row">';
                 content += '<p class="item-price col-sm-6" id="price_product"> <span>' + bruttopreis + '&#x20ac</span></p>';
-                content += '<a class="col-sm-2"><img class="shoppingCart2" src="../pictures/commerce-and-shopping-1.png" alt="Einkaufswagen" onclick="Add()"></a>';
+                content += '<a class="col-sm-2"><img class="shoppingCart2" src="../pictures/commerce-and-shopping-1.png" alt="Einkaufswagen" onclick="checkCookie('+obj.id.toString()+');Add()"></a>';
                 content += '</div>';
                 content += '</div>';
                 content += '</div>';
@@ -87,7 +87,7 @@ $(document).ready(function () {
                 content += '</div>';
                 content += '<div class="row">';
                 content += '<p class="item-price col-sm-6" onclick="checkCookie('+obj.id.toString()+')" id="price_product"> <span>' + bruttopreis + '&#x20ac</span></p>';
-                content += '<a class="col-sm-2"><img class="shoppingCart2" src="../pictures/commerce-and-shopping-1.png" alt="Einkaufswagen" onclick="Add()"></a>';
+                content += '<a class="col-sm-2"><img class="shoppingCart2" src="../pictures/commerce-and-shopping-1.png" alt="Einkaufswagen" onclick="checkCookie('+obj.id.toString()+');Add()"></a>';
                 content += '</div>';
                 content += '</div>';
                 content += '</div>';

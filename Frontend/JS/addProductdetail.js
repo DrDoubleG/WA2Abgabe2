@@ -1,4 +1,5 @@
 function Add(){
+		var menge = document.getElementById("numeric").value;
 		var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
 		if (localStorage.getItem('warenkorb') == null) {
 		var warenkorb = [];
@@ -6,9 +7,9 @@ function Add(){
 		          var bestellposition = {
                 'Produkt': {
                     'Id': getCookie("objectCookie"),
-                   
+                  
                 }, 
-                'Menge': 1
+                'Menge': menge
 				};
 				
 		warenkorb.push (bestellposition);
@@ -20,15 +21,16 @@ function Add(){
 	   
 	    var hinzufuegen = {
                 'Id': getCookie("objectCookie"),
-                
+               
             };
 	   
 			var found = false;
 		for (i = 0; i < warenkorb.length; i++) {
                 if (warenkorb[i].Produkt.Id == hinzufuegen.Id) {
                     found = true;
+					var erg = parseInt(warenkorb[i].Menge)+ parseInt(menge);
                     // beim treffer, nur menge erhöhen
-                    warenkorb[i].Menge++;
+                    warenkorb[i].Menge = erg;
                     break;
                 } // end if match found
             } // end for
@@ -37,7 +39,7 @@ function Add(){
             if (!found) {
                 warenkorb.push({
                     'Produkt': hinzufuegen,
-                    'Menge': 1
+                    'Menge': menge
                 });
             } // end if
 
