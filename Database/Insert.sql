@@ -20,7 +20,7 @@ INSERT INTO land (bezeichnung) VALUES ('Deutschland');
 INSERT INTO land (bezeichnung) VALUES ('Oesterreich');
 INSERT INTO land (bezeichnung) VALUES ('Schweiz');
 
-INSERT INTO tags (tags) VALUES ('Wasser');				
+INSERT INTO tags (tags) VALUES ('wasser');				
 INSERT INTO tags (tags) VALUES ('limonade');			
 INSERT INTO tags (tags) VALUES ('energy drink');
 INSERT INTO tags (tags) VALUES ('cola');
@@ -28,7 +28,7 @@ INSERT INTO tags (tags) VALUES ('cola');
 INSERT INTO tags (tags) VALUES ('bier');				
 INSERT INTO tags (tags) VALUES ('mixbier');				
 
-INSERT INTO tags (tags) VALUES ('weiﬂwein');			
+INSERT INTO tags (tags) VALUES ('weisswein');			
 INSERT INTO tags (tags) VALUES ('rotwein');				
 INSERT INTO tags (tags) VALUES ('rosewein');			
 
