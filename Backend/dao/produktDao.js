@@ -25,7 +25,7 @@ class ProduktDao {
         if (helper.isUndefined(result))
             throw new Error("No Record found by id=");
 
-        result = helper.objectKeysToLower(result);  
+        result = helper.objectKeysToLower(result);
         return result;
     }
     readTop() {
@@ -36,7 +36,7 @@ class ProduktDao {
         if (helper.isUndefined(result))
             throw new Error("No Record found by id=");
 
-        result = helper.objectKeysToLower(result);  
+        result = helper.objectKeysToLower(result);
         return result;
     }
     readRecommendation() {
@@ -47,7 +47,7 @@ class ProduktDao {
         if (helper.isUndefined(result))
             throw new Error("No Record found by id=");
 
-        result = helper.objectKeysToLower(result);  
+        result = helper.objectKeysToLower(result);
         return result;
     }
 
@@ -58,17 +58,17 @@ class ProduktDao {
         const produktbildDao = new ProduktbildDao(this._conn);
         const pfandstufeDao = new PfandstufeDao(this._conn);
         const angebotDao = new AngebotDao(this._conn);
-        
+
         var sql = "SELECT * FROM Produkt WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
         var result_sale = this.readSale();
-        var length =Object.keys(result_sale).length;
+        var length = Object.keys(result_sale).length;
         var obj1 = [];
-        
 
-        for(var i=0;i<length;i++){
+
+        for (var i = 0; i < length; i++) {
             obj1.push(Object.values(result_sale[i])[0])
         }
 
@@ -92,20 +92,20 @@ class ProduktDao {
         delete result.bilder.produkt_id;
         delete result.bilder.produkt;
 
-        
-        if(obj1.includes(parseInt(id))){
+
+        if (obj1.includes(parseInt(id))) {
             result.angebot = angebotDao.loadByProduct(result.id);
             delete result.angebot.produkt_id;
             result.mehrwertsteueranteil = helper.round((result.nettopreis) * result.mehrwertsteuer.steuersatz);
             var preis = helper.round(result.nettopreis + result.mehrwertsteueranteil).toFixed(2);
             result.bruttopreis = helper.round(preis * result.angebot.rabatt.faktor).toFixed(2); //bruttopreis 
-   
+
         }
-        else{
+        else {
             result.mehrwertsteueranteil = helper.round((result.nettopreis) * result.mehrwertsteuer.steuersatz);
             result.bruttopreis = helper.round(result.nettopreis + result.mehrwertsteueranteil).toFixed(2);
         }
-        
+
         return result;
     }
 
@@ -126,17 +126,17 @@ class ProduktDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all(id);
 
-        
-        var result_sale = this.readSale();
-        var length =Object.keys(result_sale).length;
-        var obj1 = [];
-        
 
-        for(var i=0;i<length;i++){
+        var result_sale = this.readSale();
+        var length = Object.keys(result_sale).length;
+        var obj1 = [];
+
+
+        for (var i = 0; i < length; i++) {
             obj1.push(Object.values(result_sale[i])[0])
         }
 
-    
+
         if (helper.isArrayEmpty(result))
             return [];
 
@@ -176,20 +176,20 @@ class ProduktDao {
             delete result[i].bilder.produkt_id;
             delete result[i].bilder.produkt;
 
-            
-            if(obj1.includes(parseInt(result[i].id))){
+
+            if (obj1.includes(parseInt(result[i].id))) {
                 for (var element of sale) {
-                if (element.produkt_id == result[i].id) {
-                    result[i].angebot = (element);
+                    if (element.produkt_id == result[i].id) {
+                        result[i].angebot = (element);
                     }
                 }
                 delete result[i].angebot.produkt_id;
                 result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis) * result[i].mehrwertsteuer.steuersatz);
                 var preis = helper.round(result[i].nettopreis + result[i].mehrwertsteueranteil).toFixed(2);
-                result[i].bruttopreis = helper.round(preis*result[i].angebot.rabatt.faktor).toFixed(2); //bruttopreis 
-                
+                result[i].bruttopreis = helper.round(preis * result[i].angebot.rabatt.faktor).toFixed(2); //bruttopreis 
+
             }
-            else{
+            else {
                 result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis) * result[i].mehrwertsteuer.steuersatz);
                 result[i].bruttopreis = helper.round(result[i].nettopreis + result[i].mehrwertsteueranteil).toFixed(2);
             }
@@ -200,31 +200,31 @@ class ProduktDao {
 
     loadByAngebot() {
         var result_sale = this.readSale();
-        var length =Object.keys(result_sale).length;
+        var length = Object.keys(result_sale).length;
         var obj1 = [];
-        var result =[];
+        var result = [];
 
-        for(var i=0;i<length;i++){
+        for (var i = 0; i < length; i++) {
             obj1.push(Object.values(result_sale[i])[0])
-            result.push (this.loadById(obj1[i]))
+            result.push(this.loadById(obj1[i]))
         }
-        return result; 
+        return result;
 
     }
-    
+
     loadByTop() {
         var result_top = this.readTop();
         var length = Object.keys(result_top).length;
         var obj1 = [];
         var result = [];
 
-        for(var i=0;i<length;i++){
+        for (var i = 0; i < length; i++) {
             obj1.push(Object.values(result_top[i])[0])
-            result.push (this.loadById(obj1[i]))
+            result.push(this.loadById(obj1[i]))
         }
 
         return result;
-    } 
+    }
 
     loadByreadRecommendation() {
         var result_recommandation = this.readRecommendation();
@@ -232,12 +232,12 @@ class ProduktDao {
         var obj1 = [];
         var result = [];
 
-        for(var i=0;i<length;i++){
+        for (var i = 0; i < length; i++) {
             obj1.push(Object.values(result_recommandation[i])[0])
-            result.push (this.loadById(obj1[i]))
+            result.push(this.loadById(obj1[i]))
         }
         return result;
-    } 
+    }
 
     loadAll() {
         const kategorieDao = new KategorieDao(this._conn);

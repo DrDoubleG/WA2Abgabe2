@@ -107,7 +107,8 @@ try {
 	serviceRouter = require("./services/bestellposition.js");
     app.use(TOPLEVELPATH, serviceRouter);
 
-
+    serviceRouter = require("./services/search.js");
+    app.use(TOPLEVELPATH, serviceRouter);
     
 } catch (ex) {
     helper.logError(ex);

@@ -26,5 +26,16 @@ function getCookie(productObject) {
 
 function checkCookie(object) {
     setCookie("objectCookie", object);
+}
 
+function searchCookie() {
+    var search=document.getElementById("search_input").value;
+    if(search!==""){
+        setCookie("searchCookie",search);
+    }
+}
+function genericHeader(){
+    var pi=document.getElementById("genHeader");
+    var content = document.createTextNode(getCookie("searchCookie"));
+    pi.appendChild(content);
 }
