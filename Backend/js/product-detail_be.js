@@ -16,18 +16,19 @@ $(document).ready(function () {
 		var pfand= '';
 		
         var obj = response.daten;
+       
         bruttopreis = (obj.bruttopreis.toString()).replace(".", ",");
-		pfand = (obj.pfandstufe.gebuehr.toString()).replace(".", ",");
+        pfand = (obj.pfandstufe.gebuehr.toString()).replace(".", ",");
         content += '<div class="conatainer-fluid col-12">';
         content += '<div class="row mt-5">';
         content += '<div class="col-6">';
         content += '<img src="' + obj.bilder.bildpfad + '" id="product_picture" alt="Produkt"></div>';
         content += '<div class="col-6">';
         content += '<h3 class="underscored">' + obj.name + '</h3>';
-        content += '<h4 id="price">' + bruttopreis + '&#x20ac</h4>';
+        content += '<h4 id="price">'+bruttopreis+'&#x20ac</h4>';
         content += '<div class="container-fluid col-12">';
         content += '<div class="row">';
-        content += '<input type="number" id="numeric" class="col-1 form-control" placeholder="1">';
+        content += '<input type="number" id="numeric" class="col-1 form-control" placeholder="1" min=1 onchange="priceCalc(' + obj.bruttopreis + ')">';
         content += '<button type="button" id="prod_sendbtn" onclick="Add()"	class="col-3 btn align-self-center btn-danger">In den Warenkorb</button>';
         content += '</div>';
         content += '</div>';
@@ -46,7 +47,7 @@ $(document).ready(function () {
 		content += '<div class="container-fluid col-12">';
 		content += '<div class="row">';
 		content += '<div class="col-4">';
-		content += '<p id="artikel_details">Pfand</p>';
+		content += '<p id="artikel_details">Pfand pro Flasche</p>';
 		content += '</div>';
 		content += '<div class="col-3">';
 		content += '<p id="artikel_details1">' + pfand + '&#x20ac</p>';
