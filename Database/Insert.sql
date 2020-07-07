@@ -28,7 +28,7 @@ INSERT INTO tags (tags) VALUES ('cola');
 INSERT INTO tags (tags) VALUES ('bier');				
 INSERT INTO tags (tags) VALUES ('mixbier');				
 
-INSERT INTO tags (tags) VALUES ('weißwein');			
+INSERT INTO tags (tags) VALUES ('weisswein');			
 INSERT INTO tags (tags) VALUES ('rotwein');				
 INSERT INTO tags (tags) VALUES ('rosewein');			
 
@@ -59,7 +59,7 @@ INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_i
 INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_id,kategorie_id) VALUES ('Paulaner Original Muenchner Hell 0,50L ',1.20,'Klassiker in Muenchen und bayerisches Grundnahrungsmittel schlechthin. Klar und hellgolden im Glas hochperlend, von hell weissem Schaum gekroent, wird es am liebsten traditionell unter Kastanien getrunken. Ein ausgesprochen sueffiges Bier: mild, elegant-malzig, mit einer leichten Suesse. Und einem leisen "Servus" vom Hopfen im Nachhall. Da gruesst das bayrische Lebensgefuehl. Der Klassiker begleitet gerne aromatische Gerichte mit seinen feinen Geschmacksnoten. Daher sollte man sich auf keinen Fall die delikate Verbindung von unserem Hellen mit saftigen SpareRibs entgehen lassen. Man wird k?stlich belohnt. Damit das Geschmackserlebnis perfekt wird, empfehlen wir das M?nchner Hell mit einer Serviertemperatur von 7 Grad zu reichen.',3,2,2);
 
 INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_id,kategorie_id) VALUES ('African Pride Wines Cabernet Sauvignon Footprint trocken 0,75L ',5.99,'gut ausbalanciert mit integrierten, runden Tanninen und sauberem Abgang',1,2,3);
-INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_id,kategorie_id) VALUES ('Alex Sensacin Rosé DO Viura Navarra 0,75L',5.99,'fruchtig und langanhaltend',1,2,3);
+INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_id,kategorie_id) VALUES ('Alex Sensacin Ros? DO Viura Navarra 0,75L',5.99,'fruchtig und langanhaltend',1,2,3);
 INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_id,kategorie_id) VALUES ('Bardolino Chiaretto Classico DOC Fratelli 0,75L',6.99,'frisch, delikat, fruchtig und lebendig',1,2,3);
 INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_id,kategorie_id) VALUES ('Baron Liebenstein Dornfelder Halbtrocken 0,75L',3.49,'kraftvoller und komplexer Wein mit samtigen Tanninen',1,2,3);
 INSERT INTO produkt (name,nettopreis,beschreibung,pfandstufe_id,mehrwertsteuer_id,kategorie_id) VALUES ('Bender Wine Der Weiss Bender Deutscher Qualitaetswein trocken 0,75L',6.99,'ein fruchtiger Mix aus heimischer gelber Frucht und einem Touch Exotik, nicht aufdringlich und nicht zu dezent',1,2,3);
