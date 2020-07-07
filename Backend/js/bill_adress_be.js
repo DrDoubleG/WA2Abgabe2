@@ -452,4 +452,31 @@
 					});
 					});
 				}
+				var obj10 = {"bestellzeitpunkt": "07.0202.2020", "zahlungsart_id": "1", "lieferadresse_id": "1", "rechnungsadresse_id":"1" }
+		$.ajax({
+			url: "http://localhost:8000/api/bestellung",
+			method: "post",
+			contentType: "application/json",
+			data: JSON.stringify(obj10)
+		}).done(function (response) {
+			console.log(response);
+			$("#output").html(JSON.stringify(response));
+		}).fail(function (jqXHR, statusText, error) {
+			console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+			$("#output").html("Ein Fehler ist aufgetreten");
+		});
+
+		var obj11 = {"menge": "10", "produkt_id": "1", "bestellung_id": "1"}
+		$.ajax({
+			url: "http://localhost:8000/api/bestellposition",
+			method: "post",
+			contentType: "application/json",
+			data: JSON.stringify(obj11)
+		}).done(function (response) {
+			console.log(response);
+			$("#output").html(JSON.stringify(response));
+		}).fail(function (jqXHR, statusText, error) {
+			console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+			$("#output").html("Ein Fehler ist aufgetreten");
+		});
 				}
