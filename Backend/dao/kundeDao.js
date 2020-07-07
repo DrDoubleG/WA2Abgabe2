@@ -1,6 +1,8 @@
 const helper = require("../helper.js");
+const PersonDao = require("./personDao.js");
 
-class PersonDao {
+
+class KundeDao {
 
     constructor(dbConnection) {
         this._conn = dbConnection;
@@ -11,42 +13,38 @@ class PersonDao {
     }
 
     loadById(id) {
-        var sql = "SELECT * FROM Person WHERE ID=?";
+        const personDao = new PersonDao(this._conn);
+        
+        var sql = "SELECT * FROM Kunde WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
-        return helper.objectKeysToLower(result);
-    }
-
-    loadAll() {
-        var sql = "SELECT * FROM Person";
-        var statement = this._conn.prepare(sql);
-        var result = statement.all();
-
-        if (helper.isArrayEmpty(result)) 
-            return [];
+        result = helper.objectKeysToLower(result);
+		
+		result.person = personDao.loadById(result.person_id);
+        delete result.person_id;
         
-        return helper.arrayObjectKeysToLower(result);
+        return result;
     }
+	
 
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Person WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Kunde WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (result.cnt == 1) 
+        if (result.cnt == 1)
             return true;
 
         return false;
     }
-
-    create(anrede = "", vorname = "", name = "") {
-        var sql = "INSERT INTO Person (Anrede,Vorname,Name) VALUES (?,?,?)";
+    create(email = "", geburtsdatum = "", person_id = "") {
+        var sql = "INSERT INTO Kunde (Email,Geburtsdatum,Person_id) VALUES (?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [anrede, vorname, name];
+        var params = [email,geburtsdatum,person_id];
         var result = statement.run(params);
 
         if (result.changes != 1) 
@@ -55,8 +53,9 @@ class PersonDao {
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
+
     selectLastID(){
-        var sql = "SELECT id FROM Person ORDER BY id DESC LIMIT 1";
+        var sql = "SELECT id FROM Kunde ORDER BY id DESC LIMIT 1";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
@@ -68,8 +67,8 @@ class PersonDao {
 
 
     toString() {
-        helper.log("PersonDao [_conn=" + this._conn + "]");
+        helper.log("KundeDao [_conn=" + this._conn + "]");
     }
 }
 
-module.exports = PersonDao;
+module.exports = KundeDao;

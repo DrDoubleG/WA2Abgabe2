@@ -24,6 +24,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="../JS/billAdressMessage_Checkbox.js"></script>
 	<script src="../../Backend/js/navbar_be.js"></script>
+	<script src="../../Backend/js/bill_adress_be.js"></script>
 	<title>RECHNUNGSANSCHRIFT</title>
 </head>
 
@@ -90,9 +91,8 @@
 				<div class="float-left col-6 mt-3">
 					<p class="float-left m-3 col-3  name_input">Anrede</p>
 
-					<select class="form-control m-3" id="inputs_form">
-						<option selected>Anrede</option>
-						<option>Herr</option>
+					<select class="form-control m-3" id="inputs_form1">
+						<option selected>Herr</option>
 						<option>Frau</option>
 						<option>Andere</option>
 					</select>
@@ -104,14 +104,13 @@
 				</div>
 				<div class="float-left col-6 mt-3">
 					<p class="float-left m-3 col-3 name_input">E-Mail</p>
-					<input type="email" class="float-none m-3 col-6 form-control" placeholder="E-Mail">
+					<input type="email" id="email_1" class="float-none m-3 col-6 form-control" placeholder="E-Mail">
 				</div>
 				<div class="float-left col-6 mt-3" id="text" style="visibility:hidden">
 					<p class="float-left m-3 col-3  name_input">Anrede</p>
 
-					<select class="form-control m-3 " id="inputs_form">
-						<option selected>Anrede</option>
-						<option>Herr</option>
+					<select class="form-control m-3 " id="inputs_form2">
+						<option selected>Herr</option>
 						<option>Frau</option>
 						<option>Andere</option>
 					</select>
@@ -119,24 +118,24 @@
 
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Vorname</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Vorname</p> <input type="text" id="vorname_1"
 						class="float-none m-3 col-6 form-control" placeholder="Vorname">
 				</div>
 
 				<div class="float-left col-6 mt-3" id="text2" style="visibility:hidden">
-					<p class="float-left m-3 col-3 name_input">Vorname</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Vorname</p> <input type="text" id="vorname_2"
 						class="float-none m-3 col-6 form-control" placeholder="Vorname">
 				</div>
 
 
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Name</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Name</p> <input type="text" id="name_1"
 						class="float-none m-3 col-6 form-control" placeholder="Name">
 				</div>
 
 				<div class="float-left col-6 mt-3" id="text3" style="visibility:hidden">
-					<p class="float-left m-3 col-3 name_input">Name</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Name</p> <input type="text" id="name_2"
 						class="float-none m-3 col-6 form-control" placeholder="Name">
 				</div>
 
@@ -146,10 +145,10 @@
 							<p class="name_input">Straße/Hausnr.</p>
 						</div>
 						<div class="col-4" id="straße">
-							<input type="text" class="form-control" placeholder="Straße">
+							<input type="text" id="strasse_1" class="form-control" placeholder="Straße">
 						</div>
 						<div class="col-4">
-							<input type="text" class="form-control" placeholder="Hausnummer">
+							<input type="text" id="hausnummer_1" class="form-control" placeholder="Hausnummer">
 						</div>
 					</div>
 				</div>
@@ -159,46 +158,46 @@
 							<p class="name_input">Straße/Hausnr.</p>
 						</div>
 						<div class="col-4" id="straße">
-							<input type="text" class="form-control" placeholder="Straße">
+							<input type="text" id="strasse_2" class="form-control" placeholder="Straße">
 						</div>
 						<div class="col-4">
-							<input type="text" class="form-control" placeholder="Hausnummer">
+							<input type="text" id="hausnummer_2" class="form-control" placeholder="Hausnummer">
 						</div>
 					</div>
 				</div>
 
 
 				<div class="float-left col-6 mt-4">
-					<p class="float-left m-3 col-3 name_input">PLZ</p> <input type="number"
+					<p class="float-left m-3 col-3 name_input">PLZ</p> <input type="number" id="plz_1"
 						class="float-none m-3 col-6 form-control" placeholder="PLZ">
 				</div>
 				<div class="float-left col-6 mt-4" id="text5" style="visibility:hidden">
-					<p class="float-left m-3 col-3 name_input">PLZ</p> <input type="number"
+					<p class="float-left m-3 col-3 name_input">PLZ</p> <input type="number" id="plz_2"
 						class="float-none m-3 col-6 form-control" placeholder="PLZ">
 				</div>
 
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Ort</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Ort</p> <input type="text" id="ort_1"
 						class="float-none m-3 col-6 form-control" placeholder="Ort">
 				</div>
 				<div class="float-left col-6 mt-3" id="text6" style="visibility:hidden">
-					<p class="float-left m-3 col-3 name_input">Ort</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Ort</p> <input type="text" id="ort_2"
 						class="float-none m-3 col-6 form-control" placeholder="Ort">
 				</div>
 
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text" id="land_1"
 						class="float-none m-3 col-6 form-control" placeholder="Land">
 				</div>
 				<div class="float-left col-6 mt-3" id="text7" style="visibility:hidden">
-					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text"
+					<p class="float-left m-3 col-3 name_input">Land</p> <input type="text" id="land_2"
 						class="float-none m-3 col-6 form-control" placeholder="Land">
 				</div>
 
 				<div class="float-left col-6 mt-3">
-					<p class="float-left m-3 col-3 name_input">Geburtsdatum</p> <input type="date"
+					<p class="float-left m-3 col-3 name_input">Geburtsdatum</p> <input type="date" id="geburtsdatum_1"
 						class="float-none m-3 col-6 form-control" placeholder="Geburtsdatum">
 				</div>
 				<div class="float-left col-6 mt-3 distance">
@@ -217,18 +216,13 @@
 				<div class="float-left col-6 mt-3 distance">
 					<p class="float-left m-3 col-4 name_input">&nbsp</p>
 				</div>
-				<div class="collapse">
-					<div class="float-left col-6 mt-3">
-						<p class="float-left m-3 col-2 name_input">Land</p> <input type="text"
-							class="float-none m-3 col-6 form-control" placeholder="Land">
-					</div>
-				</div>
+				
 			</div>
 			<div class="container-fluid">
-				<a href="order_confirmation.html"><button type="button" id="sendbtn"
-						class="col-6 btn align-self-center btn-danger">Abschicken</button></a>
+				<a><button type="button" id="sendbtn"
+						class="col-6 btn align-self-center btn-danger" onclick="getData()">Abschicken</button></a>
 			</div>
-
+			
 
 			</div>
 		</form>

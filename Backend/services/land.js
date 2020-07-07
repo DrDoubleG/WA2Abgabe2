@@ -49,8 +49,6 @@ serviceRouter.post("/land", function(request, response) {
     helper.log("Service Land: Client requested creation of new record");
 
     var errorMsgs=[];
-    if (helper.isUndefined(request.body.kennzeichnung)) 
-        errorMsgs.push("kennzeichnung fehlt");
     if (helper.isUndefined(request.body.bezeichnung)) 
         errorMsgs.push("bezeichnung fehlt");
     
@@ -62,7 +60,7 @@ serviceRouter.post("/land", function(request, response) {
 
     const landDao = new LandDao(request.app.locals.dbConnection);
     try {
-        var result = landDao.create(request.body.kennzeichnung, request.body.bezeichnung);
+        var result = landDao.create(request.body.bezeichnung);
         helper.log("Service Land: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -71,47 +69,19 @@ serviceRouter.post("/land", function(request, response) {
     }    
 });
 
-serviceRouter.put("/land", function(request, response) {
-    helper.log("Service Land: Client requested update of existing record");
-
-    var errorMsgs=[];
-    if (helper.isUndefined(request.body.id)) 
-        errorMsgs.push("id fehlt");
-    if (helper.isUndefined(request.body.kennzeichnung)) 
-        errorMsgs.push("kennzeichnung fehlt");
-    if (helper.isUndefined(request.body.bezeichnung)) 
-        errorMsgs.push("bezeichnung fehlt");
-
-    if (errorMsgs.length > 0) {
-        helper.log("Service Land: Update not possible, data missing");
-        response.status(400).json(helper.jsonMsgError("Update nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
-        return;
-    }
+serviceRouter.get("/land/neuste", function(request, response) {
+    helper.log("Service Land: Client requested all records");
 
     const landDao = new LandDao(request.app.locals.dbConnection);
     try {
-        var result = landDao.update(request.body.id, request.body.kennzeichnung, request.body.bezeichnung);
-        helper.log("Service Land: Record updated, id=" + request.body.id);
+        var result = landDao.selectLastID();
+        helper.log("Service Land: Records loaded, count=" + result.length);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
-        helper.logError("Service Land: Error updating record by id. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }    
-});
-
-serviceRouter.delete("/land/:id", function(request, response) {
-    helper.log("Service Land: Client requested deletion of record, id=" + request.params.id);
-
-    const landDao = new LandDao(request.app.locals.dbConnection);
-    try {
-        var obj = landDao.loadById(request.params.id);
-        landDao.delete(request.params.id);
-        helper.log("Service Land: Deletion of record successfull, id=" + request.params.id);
-        response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
-    } catch (ex) {
-        helper.logError("Service Land: Error deleting record. Exception occured: " + ex.message);
+        helper.logError("Service Land: Error loading all records. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
+
 
 module.exports = serviceRouter;

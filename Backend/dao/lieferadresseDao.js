@@ -1,8 +1,9 @@
 const helper = require("../helper.js");
-const LandDao = require("./landDao.js");
+const AdresseDao = require("./adresseDao.js");
+const PersonDao = require("./personDao.js");
 
 
-class AdresseDao {
+class LieferadresseDao {
 
     constructor(dbConnection) {
         this._conn = dbConnection;
@@ -11,25 +12,37 @@ class AdresseDao {
     getConnection() {
         return this._conn;
     }
+    
 
     loadById(id) {
-        const landDao = new LandDao(this._conn);
+        const adresseDao = new AdresseDao(this._conn);
+        const personDao = new PersonDao(this._conn);
         
-        var sql = "SELECT * FROM Adresse WHERE ID=?";
+        var sql = "SELECT * FROM Lieferadresse WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
+
 
         if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         result = helper.objectKeysToLower(result);
-        
+
+        //Zum aufsplitten der Daten 
+
+		
+        result.person = personDao.loadById(result.person_id);
+        delete result.person_id;
+
+        result.adresse = adresseDao.loadById(result.adresse_id);
+        delete result.adresse_id;
+
+    
         return result;
     }
-	
 
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Adresse WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Lieferadresse WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -38,10 +51,11 @@ class AdresseDao {
 
         return false;
     }
-    create(strasse = "", hausnummer = "", plz = "", ort = "", land_id = "") {
-        var sql = "INSERT INTO Adresse (Strasse,Hausnummer,PLZ,Ort,Land_ID) VALUES (?,?,?,?,?)";
+
+    create(adresse_id = "", person_id ="") {
+        var sql = "INSERT INTO Lieferadresse (Adresse_ID,Person_ID) VALUES (?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [strasse, hausnummer, plz, ort, land_id];
+        var params = [adresse_id, person_id];
         var result = statement.run(params);
 
         if (result.changes != 1) 
@@ -50,20 +64,10 @@ class AdresseDao {
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
-    selectLastID(){
-        var sql = "SELECT id FROM Adresse ORDER BY id DESC LIMIT 1";
-        var statement = this._conn.prepare(sql);
-        var result = statement.all();
-
-        if (helper.isArrayEmpty(result)) 
-            return [];
-        
-        return helper.arrayObjectKeysToLower(result);
-    }
 
     toString() {
-        helper.log("AdresseDao [_conn=" + this._conn + "]");
+        helper.log("LieferadresseDao [_conn=" + this._conn + "]");
     }
 }
 
-module.exports = AdresseDao;
+module.exports = LieferadresseDao;

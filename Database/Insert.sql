@@ -166,6 +166,8 @@ INSERT INTO lieferadresse (person_Id, adresse_Id) VALUES (1,2);
 
 INSERT INTO bestellung (bestellzeitpunkt,zahlungsart_Id,lieferadresse_Id,rechnungsadresse_Id) VALUES ('07.06.2020',1,1,1);
 
+INSERT INTO bestellposition (menge,produkt_id, bestellung_id ) VALUES (2,1,1);
+
 select *
 from produkt;
 
