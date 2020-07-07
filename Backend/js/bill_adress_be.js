@@ -294,6 +294,7 @@
 					$.ajax({
 						url: "http://localhost:8000/api/land",
 						method: "post",
+						async: false,
 						contentType: "application/json",
 						data: JSON.stringify(obj)
 					}).done(function (response) {
@@ -310,6 +311,7 @@
 					$.ajax({
 						url: "http://localhost:8000/api/person",
 						method: "post",
+						async: false,
 						contentType: "application/json",
 						data: JSON.stringify(obj2)
 					}).done(function (response) {
@@ -323,6 +325,7 @@
 					$.ajax({
 						url: "http://localhost:8000/api/person/neuste",
 						method: "get",
+						async: false,
 						dataType: "json"
 						}).done(function (response) {
 						console.log("Data loaded successfully");
@@ -337,6 +340,7 @@
 					$.ajax({
 						url: "http://localhost:8000/api/kunde",
 						method: "post",
+						async: false,
 						contentType: "application/json",
 						data: JSON.stringify(obj3)
 					}).done(function (response) {
@@ -351,6 +355,7 @@
 					$.ajax({
 						url: "http://localhost:8000/api/land/neuste",
 						method: "get",
+						async: false,
 						dataType: "json"
 						}).done(function (response) {
 						console.log("Data loaded successfully");
@@ -364,6 +369,7 @@
 						$.ajax({
 							url: "http://localhost:8000/api/adresse",
 							method: "post",
+							async: false,
 							contentType: "application/json",
 							data: JSON.stringify(obj1)
 						}).done(function (response) {
@@ -379,6 +385,7 @@
 						$.ajax({
 						url: "http://localhost:8000/api/adresse/neuste",
 						method: "get",
+						async: false,
 						dataType: "json"
 						}).done(function (response) {
 						console.log("Data loaded successfully");
@@ -389,6 +396,7 @@
 							$.ajax({
 							url: "http://localhost:8000/api/kunde/neuste",
 							method: "get",
+							async: false,
 							dataType: "json"
 							}).done(function (response) {
 							console.log("Data loaded successfully");
@@ -401,6 +409,7 @@
 							$.ajax({
 								url: "http://localhost:8000/api/rechnungsadresse",
 								method: "post",
+								async: false,
 								contentType: "application/json",
 								data: JSON.stringify(obj5)
 							}).done(function (response) {
@@ -414,6 +423,7 @@
 							$.ajax({
 							url: "http://localhost:8000/api/person/neuste",
 							method: "get",
+							async: false,
 							dataType: "json"
 							}).done(function (response) {
 							console.log("Data loaded successfully");
@@ -426,6 +436,7 @@
 							$.ajax({
 								url: "http://localhost:8000/api/lieferadresse",
 								method: "post",
+								async: false,
 								contentType: "application/json",
 								data: JSON.stringify(obj6)
 							}).done(function (response) {
