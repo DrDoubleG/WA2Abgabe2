@@ -26,7 +26,7 @@ async function dynamise(url,menge,count){
 			content += '<input step="1" data-step-max="10" class="col-4" type="number" id="'+ numericInput +'" value="' + menge + '" data-decimals="0" min="1" max="360" onchange="checkCookie('+obj.id.toString()+');updateShoppingCart(this);priceCalc('+ obj.bruttopreis +',' + numericInput +',' + texti +')" />';
 			content += '</div>';
 			content += '<div class="col-2" id="garbage">';
-			content += '<img src="../pictures/delete.png" class="col-3" alt="Produkt">';
+			content += '<a onclick="deleteProduct()"><img onclick="checkCookie('+obj.id.toString()+')" src="../pictures/delete.png" class="col-3" alt="Produkt"></a>';
 			content += '</div>';
 			content += '<div class="col-2" id="shopping">';
 			content += '<span id="'+ texti +'">' + bruttopreis + ' €</span>';
@@ -34,9 +34,11 @@ async function dynamise(url,menge,count){
 			content += '</div>';
 		
 			$('#dyntarget5').html(content);
+	
 			
 });
 };
+
 
 function priceCalc(preis,numericInput,texti){
     let show = texti;
@@ -62,13 +64,9 @@ $(document).ready( async function () {
 		var url = "http://localhost:8000/api/produkt/gib/" + id;
 		count = i;
 		await dynamise(url,menge, count);
-			
-       
-
-
-	
 			}
     });
+
 
 function updateShoppingCart(e){
 	console.log("updateing shopping cart");
@@ -87,6 +85,24 @@ function updateShoppingCart(e){
 			localStorage.setItem('warenkorb', JSON.stringify(warenkorb));
 			
 		
+}
+
+
+function deleteProduct(){
+	console.log("delete product");
+	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
+
+	for (var i=0; i<warenkorb.length; i++) {
+		var erg = (warenkorb[i].Produkt.Id);
+		if (erg === getCookie("objectCookie")){
+			warenkorb.splice(i,1);
+		}
+	}
+	warenkorb = JSON.stringify(warenkorb);
+	localStorage.setItem("warenkorb", warenkorb);
+	console.log(warenkorb);
+	location.reload();
+
 }
 
 
