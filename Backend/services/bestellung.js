@@ -60,4 +60,18 @@ serviceRouter.post("/bestellung", function(request, response) {
     }    
 });
 
+serviceRouter.get("/bestellung/neuste", function(request, response) {
+    helper.log("Service Bestellung: Client requested all records");
+
+    const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
+    try {
+        var result = bestellungDao.selectLastID();
+        helper.log("Service Bestellung: Records loaded, count=" + result.length);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Bestellung: Error loading all records. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 module.exports = serviceRouter;

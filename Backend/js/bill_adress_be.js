@@ -1,4 +1,20 @@
-		function getData() {
+async function dynamise2(obj11){
+	
+		$.ajax({
+			url: "http://localhost:8000/api/bestellposition",
+			method: "post",
+			async: false,
+			contentType: "application/json",
+			data: JSON.stringify(obj11)
+		}).done(function (response) {
+			console.log(response);
+			$("#output").html(JSON.stringify(response));
+		}).fail(function (jqXHR, statusText, error) {
+			console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+			$("#output").html("Ein Fehler ist aufgetreten");
+		});
+}
+		async function getData() {
 				
 					var checkBox = document.getElementById("difference_delivery");
 				if (checkBox.checked == true){
@@ -25,7 +41,13 @@
 					
 					var x = document.getElementByID("inputs_form");
 					var ZahlungsId = x.selectedIndex + 1;
-					
+					var currentdate = new Date(); 
+					var datetime =  currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear()   + " "
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
 					
 					
 					var land_id;
@@ -275,6 +297,7 @@
 
 					});
 					});
+					
 				
 				} else {
 					
@@ -294,6 +317,13 @@
 					var adresse_id;
 					var x = document.getElementById("inputs_form");
 					var ZahlungsId = x.selectedIndex + 1;
+					var currentdate = new Date(); 
+					var datetime =  currentdate.getDate() + "/"
+					+ (currentdate.getMonth()+1)  + "/" 
+					+ currentdate.getFullYear()  + " "
+					+ currentdate.getHours() + ":"  
+					+ currentdate.getMinutes() + ":" 
+					+ currentdate.getSeconds();
 					
 					console.log("button senddbtn clicked");
 					var obj = {bezeichnung: land_1}
@@ -458,31 +488,63 @@
 					});
 					});
 				}
-				var obj10 = {"bestellzeitpunkt": "07.0202.2020", "zahlungsart_id": "1", "lieferadresse_id": "1", "rechnungsadresse_id":"1" }
-		$.ajax({
-			url: "http://localhost:8000/api/bestellung",
-			method: "post",
-			contentType: "application/json",
-			data: JSON.stringify(obj10)
-		}).done(function (response) {
-			console.log(response);
-			$("#output").html(JSON.stringify(response));
-		}).fail(function (jqXHR, statusText, error) {
-			console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-			$("#output").html("Ein Fehler ist aufgetreten");
+				$.ajax({
+							url: "http://localhost:8000/api/lieferadresse/neuste",
+							method: "get",
+							async: false,
+							dataType: "json"
+							}).done(function (response) {
+							console.log("Data loaded successfully");
+							console.log(response);
+							var resp4 = response.daten[0];
+							lieferadresse_id = resp4.id;
+							
+							$.ajax({
+							url: "http://localhost:8000/api/rechnungsadresse/neuste",
+							method: "get",
+							async: false,
+							dataType: "json"
+							}).done(function (response) {
+							console.log("Data loaded successfully");
+							console.log(response);
+							var resp5 = response.daten[0];
+							rechnungsadresse_id = resp5.id;
+				var obj10 = {"bestellzeitpunkt": datetime, "zahlungsart_id": ZahlungsId, "lieferadresse_id": lieferadresse_id , "rechnungsadresse_id": rechnungsadresse_id }
+			$.ajax({
+				url: "http://localhost:8000/api/bestellung",
+				method: "post",
+				async: false,
+				contentType: "application/json",
+				data: JSON.stringify(obj10)
+			}).done(function (response) {
+				console.log(response);
+				$("#output").html(JSON.stringify(response));
+			}).fail(function (jqXHR, statusText, error) {
+				console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+				$("#output").html("Ein Fehler ist aufgetreten");
+			});
+			});
+			});
+				$.ajax({
+							url: "http://localhost:8000/api/bestellung/neuste",
+							method: "get",
+							async: false,
+							dataType: "json"
+							}).done(function (response) {
+							console.log("Data loaded successfully");
+							console.log(response);
+							var resp8 = response.daten[0];
+							bestellung_id = resp8.id;
+							
+							var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
+							
+							for (i = 0; i < warenkorb.length; i++) {
+								var id = warenkorb[i].Produkt.Id;
+								var menge = warenkorb[i].Menge;
+								var obj11 = {"menge": menge, "produkt_id": id, "bestellung_id": bestellung_id}
+		
+								dynamise2(obj11);
+		
+		}
 		});
-
-		var obj11 = {"menge": "10", "produkt_id": "1", "bestellung_id": "1"}
-		$.ajax({
-			url: "http://localhost:8000/api/bestellposition",
-			method: "post",
-			contentType: "application/json",
-			data: JSON.stringify(obj11)
-		}).done(function (response) {
-			console.log(response);
-			$("#output").html(JSON.stringify(response));
-		}).fail(function (jqXHR, statusText, error) {
-			console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-			$("#output").html("Ein Fehler ist aufgetreten");
-		});
-				}
+}
