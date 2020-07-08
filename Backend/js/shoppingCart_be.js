@@ -1,18 +1,9 @@
-$(document).ready(function () {
-    console.log("Document ready, loading data from Service");
-	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
-	var content = '';
-	for (i = 0; i < warenkorb.length; i++) {
-		var id = warenkorb[i].Produkt.Id;
-		var url = "http://localhost:8000/api/produkt/gib/" + id;
-			console.log(url);
-		
-			$.ajax({
+async function dynamise(url,menge){
+	$.ajax({
 			url: url,
 			method: "get",
-
 			dataType: "json"
-		
+			
 			}).done(function (response) {
 				console.log("Data loaded successfully");
 				console.log(response);
@@ -29,7 +20,7 @@ $(document).ready(function () {
 			content += '</div>';
 			content += '<div class="col-1"></div>';
 			content += '<div class="col-2" id="number">';
-			content += '<input step="1" data-step-max="10" class="col-4" type="number" id="inputLoop" value="1" data-decimals="0" min="1" max="360" />';
+			content += '<input step="1" data-step-max="10" class="col-4" type="number" id="inputLoop" value="' + menge + '" data-decimals="0" min="1" max="360" onchange="checkCookie('+obj.id.toString()+');updateShoppingCart(this)" />';
 			content += '</div>';
 			content += '<div class="col-2" id="garbage">';
 			content += '<img src="../pictures/delete.png" class="col-3" alt="Produkt">';
@@ -38,11 +29,49 @@ $(document).ready(function () {
 			content += '<span>' + bruttopreis + ' €</span>';
 			content += '</div>';
 			content += '</div>';
+			
+			$('#dyntarget5').html(content);
+});
+};
+
+
+
+
+
+$(document).ready( async function () {
+    console.log("Document ready, loading data from Service");
+	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
+	var content = '';
+	for (i = 0; i < warenkorb.length; i++) {
+		var id = warenkorb[i].Produkt.Id;
+		var menge = warenkorb[i].Menge;
+		var url = "http://localhost:8000/api/produkt/gib/" + id;
+		
+		await dynamise(url,menge);
+			
        
 
 
-		 $('#dyntarget5').html(content);
-			});
-    }
+	
+			}
+    });
 
-});
+function updateShoppingCart(e){
+	console.log("updateing shopping cart");
+	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
+	var menge = e.value;
+			for (i = 0; i < warenkorb.length; i++) {
+                if (warenkorb[i].Produkt.Id == getCookie("objectCookie")) {
+					var erg = parseInt(menge);
+					console.log(warenkorb[i].Menge);
+                    warenkorb[i].Menge = erg;
+					console.log(erg);
+                    break;
+				}
+				
+			}
+			localStorage.setItem('warenkorb', JSON.stringify(warenkorb));
+			
+		
+}
+
