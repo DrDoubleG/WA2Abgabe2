@@ -15,7 +15,13 @@ async function dynamise2(obj11){
 		});
 }
 		async function getData() {
-				
+			var currentdate = new Date(); 
+				var datetime =  currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear()   + " "
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
 					var checkBox = document.getElementById("difference_delivery");
 				if (checkBox.checked == true){
 				
@@ -39,15 +45,9 @@ async function dynamise2(obj11){
 					var ort_2 = document.getElementById("ort_2").value;
 					var land_2 = document.getElementById("land_2").value;
 					
-					var x = document.getElementByID("inputs_form");
+					var x = document.getElementById("inputs_form");
 					var ZahlungsId = x.selectedIndex + 1;
-					var currentdate = new Date(); 
-					var datetime =  currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear()   + " "
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
+
 					
 					
 					var land_id;
@@ -317,13 +317,7 @@ async function dynamise2(obj11){
 					var adresse_id;
 					var x = document.getElementById("inputs_form");
 					var ZahlungsId = x.selectedIndex + 1;
-					var currentdate = new Date(); 
-					var datetime =  currentdate.getDate() + "/"
-					+ (currentdate.getMonth()+1)  + "/" 
-					+ currentdate.getFullYear()  + " "
-					+ currentdate.getHours() + ":"  
-					+ currentdate.getMinutes() + ":" 
-					+ currentdate.getSeconds();
+					
 					
 					console.log("button senddbtn clicked");
 					var obj = {bezeichnung: land_1}

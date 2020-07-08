@@ -42,6 +42,54 @@ class BestellungDao {
         return result;
     }
 
+    loadAll() {
+        const zahlungsartDao = new ZahlungsartDao(this._conn);
+        var pay = zahlungsartDao.loadAll();
+        const lieferadresseDao = new LieferadresseDao(this._conn);
+        var lf = lieferadresseDao.loadAll();
+        const rechnungsadresseDao = new RechnungsadresseDao(this._conn);
+        var rf = rechnungsadresseDao.loadAll();
+
+        var sql = "SELECT * FROM Bestellung";
+        var statement = this._conn.prepare(sql);
+        var result = statement.all();
+
+        if (helper.isArrayEmpty(result)) 
+            return [];
+
+        result = helper.arrayObjectKeysToLower(result);
+
+        for (var i = 0; i < result.length; i++) {
+            for (var element of pay) {
+                if (element.id == result[i].zahlungsart_id) {
+                    result[i].zahlungsart = element;
+                    break;
+                }
+            }
+            delete result[i].zahlungsart_id;
+            for (var element of lf) {
+                if (element.id == result[i].lieferadresse_id) {
+                    result[i].lieferadresse = element;
+                    break;
+                }
+            }
+            delete result[i].lieferadresse_id;
+
+            for (var element of rf) {
+                if (element.id == result[i].rechnungsadresse_id) {
+                    result[i].rechnungsadresse = element;
+                    break;
+                }
+            }
+            delete result[i].rechnungsadresse_id;
+           
+        }
+
+
+        return result;
+    }
+
+
     exists(id) {
         var sql = "SELECT COUNT(ID) AS cnt FROM Bestellung WHERE ID=?";
         var statement = this._conn.prepare(sql);
