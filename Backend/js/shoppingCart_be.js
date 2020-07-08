@@ -1,7 +1,7 @@
 async function dynamise(url,menge,count){
 	$.ajax({
 			url: url,
-			method: "get",
+			method: "get",		
 			dataType: "json"
 			
 			}).done(function (response) {
@@ -57,6 +57,9 @@ $(document).ready( async function () {
     console.log("Document ready, loading data from Service");
 	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
 	var content = '';
+	var content2 = '';
+	var number = '';
+	
 	var count;
 	for (i = 0; i < warenkorb.length; i++) {
 		var id = warenkorb[i].Produkt.Id;
@@ -64,7 +67,8 @@ $(document).ready( async function () {
 		var url = "http://localhost:8000/api/produkt/gib/" + id;
 		count = i;
 		await dynamise(url,menge, count);
-			}
+		await dynamise2(url,menge, content2, number);
+	}
     });
 
 
@@ -104,6 +108,25 @@ function deleteProduct(){
 	location.reload();
 
 }
+async function dynamise2(url,menge, content2, number){
+	$.ajax({
+			url: url,
+			method: "get",
+			dataType: "json"
+			
+			}).done(function (response) {
+				console.log("Data loaded successfully");
+				console.log(response);
+
+			var obj = response.daten;
+			
+			number += obj.pfandstufe.gebuehr;
+			console.log(number);
+			content2 = '<div class="p-2 col-2">'+ number +' €</div>';
+			$('#dyntarget6').html(content2);
+	
+			
+});
 
 
-
+}

@@ -17,19 +17,22 @@ serviceRouter.get("/bestellposition/gib/:id", function(request, response) {
     }
 });
 
-serviceRouter.get("/bestellposition/alle/", function(request, response) {
-    helper.log("Service Bestellposition: Client requested all records");
+serviceRouter.get("/bestellposition/produkt/:id", function(request, response) {
+    helper.log("Service Bestellposition: Client requested one record, id=" + request.params.id);
 
     const bestellpositionDao = new BestellpositionDao(request.app.locals.dbConnection);
     try {
-        var result = bestellpositionDao.loadAll();
-        helper.log("Service Bestellposition: Records loaded, count=" + result.length);
+        var result = bestellpositionDao.loadByBestellung(request.params.id);
+        helper.log("Service Bestellposition: Record loaded");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
-        helper.logError("Service Bestellposition: Error loading all records. Exception occured: " + ex.message);
+        helper.logError("Service Bestellposition: Error loading record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
+
+
+
 
 serviceRouter.get("/bestellposition/existiert/:id", function(request, response) {
     helper.log("Service Bestellposition: Client requested check, if record exists, id=" + request.params.id);

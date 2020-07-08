@@ -17,6 +17,21 @@ serviceRouter.get("/lieferadresse/gib/:id", function(request, response) {
     }
 });
 
+serviceRouter.get("/lieferadresse/alle/", function(request, response) {
+    helper.log("Service Lieferadresse: Client requested all records");
+
+    const lieferadresseDao = new LieferadresseDao(request.app.locals.dbConnection);
+    try {
+        var result = lieferadresseDao.loadAll();
+        helper.log("Service Lieferadresse: Records loaded, count=" + result.length);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Lieferadresse: Error loading all records. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
+
 serviceRouter.get("/lieferadresse/existiert/:id", function(request, response) {
     helper.log("Service Lieferadresse: Client requested check, if record exists, id=" + request.params.id);
 
