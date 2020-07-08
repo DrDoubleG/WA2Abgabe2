@@ -58,4 +58,19 @@ serviceRouter.post("/rechnungsadresse", function(request, response) {
     }    
 });
 
+
+serviceRouter.get("/rechnungsadresse/neuste", function(request, response) {
+    helper.log("Service Lieferadresse: Client requested all records");
+
+    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
+    try {
+        var result = rechnungsadresseDao.selectLastID();
+        helper.log("Service Rechnungsadresse: Records loaded, count=" + result.length);
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Rechnungsadresse: Error loading all records. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 module.exports = serviceRouter;

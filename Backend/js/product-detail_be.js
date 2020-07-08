@@ -28,7 +28,7 @@ $(document).ready(function () {
         content += '<h4 id="price">'+bruttopreis+'&#x20ac</h4>';
         content += '<div class="container-fluid col-12">';
         content += '<div class="row">';
-        content += '<input type="number" id="numeric" class="col-1 form-control" placeholder="1" min=1 onchange="priceCalc(' + obj.bruttopreis + ')">';
+        content += '<input type="number" id="numeric" class="col-1 form-control" value="1" min=1 onchange="priceCalc(' + obj.bruttopreis + ')">';
         content += '<button type="button" id="prod_sendbtn" onclick="Add()"	class="col-3 btn align-self-center btn-danger">In den Warenkorb</button>';
         content += '</div>';
         content += '</div>';

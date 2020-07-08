@@ -23,13 +23,18 @@
 					var ort_2 = document.getElementById("ort_2").value;
 					var land_2 = document.getElementById("land_2").value;
 					
+					var x = document.getElementByID("inputs_form");
+					var ZahlungsId = x.selectedIndex + 1;
+					
+					
+					
 					var land_id;
 					var person_id;
 					var kunde_id;
 					var adresse_id;
 					
 					console.log("button senddbtn clicked");
-					
+					console.log(i);
 					var obj = {"bezeichnung": land_2}
 					$.ajax({
 						url: "http://localhost:8000/api/land",
@@ -287,9 +292,10 @@
 					var person_id;
 					var kunde_id;
 					var adresse_id;
+					var x = document.getElementById("inputs_form");
+					var ZahlungsId = x.selectedIndex + 1;
 					
 					console.log("button senddbtn clicked");
-					
 					var obj = {bezeichnung: land_1}
 					$.ajax({
 						url: "http://localhost:8000/api/land",
