@@ -17,20 +17,6 @@ serviceRouter.get("/kunde/gib/:id", function(request, response) {
     }
 });
 
-serviceRouter.get("/kunde/alle/", function(request, response) {
-    helper.log("Service Kunde: Client requested all records");
-
-    const kundeDao = new KundeDao(request.app.locals.dbConnection);
-    try {
-        var result = kundeDao.loadAll();
-        helper.log("Service Kunde: Records loaded, count=" + result.length);
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Kunde: Error loading all records. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
-
 serviceRouter.get("/kunde/existiert/:id", function(request, response) {
     helper.log("Service Kunde: Client requested check, if record exists, id=" + request.params.id);
 

@@ -21,9 +21,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+	<script src="../JS/Tooltip.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="../../Backend/js/navbar_be.js"></script>
-	<script src="../../Backend/js/order_confirmation_be.js"></script>
 	<title>BESTELLBESTAETIGUNG</title>
 </head>
 
@@ -83,8 +83,84 @@
 		<p id="thanks">Danke für Ihre Bestellung bei den Wilden Winzern.</p>
 		<h3 class="underscored">Einzelheiten zu Ihrer Bestellung</h3>
 
-		<div id="lastTarget"></div>
-		
+		<div class="conatiner-fluid col-12">
+			<div class="row mt-5">
+				<div class="col-2">
+					<a href="product-detail.html" data-toggle="tooltip" title="Produktdetails"><img
+							src="../pictures/produktbsp.jpg" alt="Produkt"></a>
+				</div>
+				<div class="col-6" id="product_container">
+					<p id="product_discribtion">Whisky 30000 0,5L 6%</p>
+				</div>
+				<div class="col-2" id="product_container">
+					<p id="product_discribtion">1</p>
+				</div>
+				<div class="col-2" id="product_container">
+					<p id="product_discribtion">6,50 €</p>
+				</div>
+			</div>
+		</div>
+		<div class="conatiner-fluid col-12">
+			<div class="row mt-5">
+				<div class="col-2">
+					<a href="product-detail.html" data-toggle="tooltip" title="Produktdetails"><img
+							src="../pictures/produktbsp.jpg" alt="Produkt"></a>
+				</div>
+				<div class="col-6" id="product_container">
+					<p id="product_discribtion">Whisky 30000 0,5L 6%</p>
+				</div>
+				<div class="col-2" id="product_container">
+					<p id="product_discribtion">1</p>
+				</div>
+				<div class="col-2" id="product_container">
+					<p id="product_discribtion">6,50 €</p>
+				</div>
+			</div>
+		</div>
+		<div class="conatiner-fluid col-12">
+			<div class="row mt-5">
+				<div class="col-2">
+					<a href="product-detail.html" data-toggle="tooltip" title="Produktdetails"><img
+							src="../pictures/produktbsp.jpg" alt="Produkt"></a>
+				</div>
+				<div class="col-6" id="product_container">
+					<p id="product_discribtion">Whisky 30000 0,5L 6%</p>
+				</div>
+				<div class="col-2" id="product_container">
+					<p id="product_discribtion">1</p>
+				</div>
+				<div class="col-2" id="product_container">
+					<p id="product_discribtion">6,50 €</p>
+				</div>
+			</div>
+		</div>
+		<p class="underscored"></p>
+		<div class="conatiner-fluid col-12">
+			<div class="row mt-5">
+				<div class="col-10">
+				</div>
+				<div class="col-2">
+					<p id="all_price">18,99 €</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="conatiner-fluid col-12">
+			<div class="row">
+				<div class="col-4 ml-5">
+					<h3 class="mb-3"> Deine Rechnungsadresse:</h3>
+					<h5> Peter Schwamborn</h5>
+					<h5> Lortzingstraße 25</h5>
+					<h5> 72458 Albstadt</h5>
+				</div>
+				<div class="col-4 ml-5">
+					<h3 class="mb-3"> Deine Lieferadresse:</h3>
+					<h5> Peter Schwamborn</h5>
+					<h5> Lortzingstraße 25</h5>
+					<h5> 72458 Albstadt</h5>
+				</div>
+			</div>
+		</div>
 		<div class="col-2 m-5">
 			<a href="index.html">
 				<p id="back_home">Zurück zur Startseite</p>

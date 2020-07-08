@@ -17,20 +17,6 @@ serviceRouter.get("/adresse/gib/:id", function(request, response) {
     }
 });
 
-serviceRouter.get("/adresse/alle/", function(request, response) {
-    helper.log("Service Adresse: Client requested all records");
-
-    const adresseDao = new AdresseDao(request.app.locals.dbConnection);
-    try {
-        var result = adresseDao.loadAll();
-        helper.log("Service Adresse: Records loaded, count=" + result.length);
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Adresse: Error loading all records. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
-
 serviceRouter.get("/adresse/existiert/:id", function(request, response) {
     helper.log("Service Adresse: Client requested check, if record exists, id=" + request.params.id);
 

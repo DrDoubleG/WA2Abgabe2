@@ -17,20 +17,6 @@ serviceRouter.get("/rechnungsadresse/gib/:id", function(request, response) {
     }
 });
 
-serviceRouter.get("/rechnungsadresse/alle/", function(request, response) {
-    helper.log("Service Rechnungsadresse: Client requested all records");
-
-    const rechnungsadresseDao = new RechnungsadresseDao(request.app.locals.dbConnection);
-    try {
-        var result = rechnungsadresseDao.loadAll();
-        helper.log("Service Rechnungsadresse: Records loaded, count=" + result.length);
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Rechnungsadresse: Error loading all records. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
-
 serviceRouter.get("/rechnungsadresse/existiert/:id", function(request, response) {
     helper.log("Service Rechnungsadresse: Client requested check, if record exists, id=" + request.params.id);
 

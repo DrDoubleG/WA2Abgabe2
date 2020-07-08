@@ -41,44 +41,6 @@ class LieferadresseDao {
         return result;
     }
 
-    loadAll() {
-        const adresseDao = new AdresseDao(this._conn);
-        var ad = adresseDao.loadAll();
-        const personDao = new PersonDao(this._conn);
-        var person = personDao.loadAll();
-
-        var sql = "SELECT * FROM Lieferadresse";
-        var statement = this._conn.prepare(sql);
-        var result = statement.all();
-
-        if (helper.isArrayEmpty(result)) 
-            return [];
-
-        result = helper.arrayObjectKeysToLower(result);
-
-        for (var i = 0; i < result.length; i++) {
-            for (var element of ad) {
-                if (element.id == result[i].adresse_id) {
-                    result[i].adresse = element;
-                    break;
-                }
-            }
-            delete result[i].adresse_id;
-            for (var element of person) {
-                if (element.id == result[i].person_id) {
-                    result[i].person = element;
-                    break;
-                }
-            }
-            delete result[i].person_id;
-        }
-
-
-        return result;
-    }
-
-    
-
     exists(id) {
         var sql = "SELECT COUNT(ID) AS cnt FROM Lieferadresse WHERE ID=?";
         var statement = this._conn.prepare(sql);

@@ -40,43 +40,6 @@ class RechnungsadresseDao {
         return result;
     }
 
-    loadAll() {
-        const adresseDao = new AdresseDao(this._conn);
-        var ad = adresseDao.loadAll();
-        const kundeDao = new KundeDao(this._conn);
-        var cu = kundeDao.loadAll();
-
-        var sql = "SELECT * FROM Rechnungsadresse";
-        var statement = this._conn.prepare(sql);
-        var result = statement.all();
-
-        if (helper.isArrayEmpty(result)) 
-            return [];
-
-        result = helper.arrayObjectKeysToLower(result);
-
-        for (var i = 0; i < result.length; i++) {
-            for (var element of ad) {
-                if (element.id == result[i].adresse_id) {
-                    result[i].adresse = element;
-                    break;
-                }
-            }
-            delete result[i].adresse_id;
-            for (var element of cu) {
-                if (element.id == result[i].kunde_id) {
-                    result[i].kunde = element;
-                    break;
-                }
-            }
-            delete result[i].kunde_id;
-        }
-
-
-        return result;
-    }
-
-
     create(adresse_id = "", kunde_id="") {
         var sql = "INSERT INTO Rechnungsadresse (Adresse_ID,Kunde_ID) VALUES (?,?)";
         var statement = this._conn.prepare(sql);

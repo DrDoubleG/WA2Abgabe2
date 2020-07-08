@@ -26,33 +26,6 @@ class AdresseDao {
         
         return result;
     }
-
-    loadAll() {
-        const landDao = new LandDao(this._conn);
-        var country = landDao.loadAll();
-
-        var sql = "SELECT * FROM Adresse";
-        var statement = this._conn.prepare(sql);
-        var result = statement.all();
-
-        if (helper.isArrayEmpty(result)) 
-            return [];
-
-        result = helper.arrayObjectKeysToLower(result);
-
-        for (var i = 0; i < result.length; i++) {
-            for (var element of country) {
-                if (element.id == result[i].land_id) {
-                    result[i].land = element;
-                    break;
-                }
-            }
-            delete result[i].land_id;
-        }
-
-
-        return result;
-    }
 	
 
     exists(id) {

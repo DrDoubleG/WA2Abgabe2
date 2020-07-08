@@ -36,45 +36,7 @@ class BestellpositionDao {
 		
         return result;
     }
-
-    loadByBestellung(id) {
-        const produktDao = new ProduktDao(this._conn);
-        var products = produktDao.loadAll();
-        const bestellungDao = new BestellungDao(this._conn);
-        var be = bestellungDao.loadAll();
-        
-        var sql = "Select * FROM bestellposition WHERE bestellung_id = ?";
-        var statement = this._conn.prepare(sql);
-        var result = statement.all(id);
-        if (helper.isArrayEmpty(result))
-            return [];
-
-        result = helper.arrayObjectKeysToLower(result);
-        //result[0].apfel = bestellungDao.loadById(result.bestellung_id);
-
-        for (var i = 0; i < result.length; i++) {
-            for (var element of products) {
-                if (element.id == result[i].produkt_id) {
-                    result[i].produkt = element;
-                    break;
-                }
-            }
-            delete result[i].produkt_id;
-            for (var element of be) {
-                if (element.id == result[i].bestellung_id) {
-                    result[i].bestellung = element;
-                    break;
-                }
-            }
-            delete result[i].bestellung_id;
-            
-        }
-
-
-        return result ;
-    }
-
-
+	
     exists(id) {
         var sql = "SELECT COUNT(ID) AS cnt FROM Bestellposition WHERE ID=?";
         var statement = this._conn.prepare(sql);
