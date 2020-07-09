@@ -35,7 +35,7 @@ $(document).ready(function () {
 			console.log(obj.menge);
 			var versand = 20;
 			var gesamtpreis = (obj.produkt.bruttopreis* obj.menge +obj.produkt.pfandstufe.gebuehr * obj.menge).toFixed(2);
-			bruttopreis =  (parseFloat(bruttopreis) + parseFloat(gesamtpreis) + versand ).toFixed(2);
+			bruttopreis =  (parseFloat(bruttopreis) + parseFloat(gesamtpreis)).toFixed(2);
 			var gesamtpreis1 = (gesamtpreis.toString()).replace(".", ",");
 
 			console.log(obj.produkt.bilder.bildpfad);
@@ -57,8 +57,9 @@ $(document).ready(function () {
 			   content += '</div>';
 				
 
-            };
-			var erg =(bruttopreis.toString()).replace(".", ",");
+			};
+			var erg1 = ((parseFloat(bruttopreis)+parseFloat(20)).toFixed(2));
+			var erg =(erg1.toString()).replace(".", ",");
 			content += '<p class="underscored"></p>';
 			content += '<div class="conatiner-fluid col-12">';
 			content += '<div class="row mt-5">';
