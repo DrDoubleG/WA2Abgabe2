@@ -57,7 +57,7 @@
 							<form class="form-inline" action="search.html">
 								<input class="form-control mr-sm-2" id="search_input" type="text"
 									placeholder="Suchen..." required>
-									<button class="btn" type="submit"  onclick="searchCookie()">Suchen</button>
+								<button class="btn" type="submit" onclick="searchCookie()">Suchen</button>
 							</form>
 						</nav>
 					</div>
@@ -74,51 +74,43 @@
 				<div class="col-sm-8">
 
 					<div id='dyntarget2'></div>
-						
+
 				</div>
 			</div>
 		</div>
 	</header>
 
 	<main>
-		
 		<div id="dyntarget5"></div>
 
-			<div class="row mt-5 ml-5 mr-5 mb-3 border-top  border-dark">
-				<div class="p-2 col-9"></div>
-				<div class="p-2 col-1" id="sum">Pfand:</div>
-				<div class="p-2 col-2">5,98 €</div>
-			</div>
+		<div class="row mt-5 ml-5 mr-5 mb-3 border-top  border-dark">
+			<div class="p-2 col-9"></div>
+			<div class="p-2 col-1 sum">Pfand:</div>
+			<div class="p-2 col-2" id="deposit">0,00 €</div>
+		</div>
 
-			<div class="row ml-5 mr-5 mb-3">
-				<div class="p-2 col-8"></div>
-				<div class="p-2 col-2" id="sum">Zwischensumme:</div>
-				<div class="p-2 col-2">55,88 €</div>
-			</div>
+		<div class="row ml-5 mr-5 mb-3">
+			<div class="p-2 col-8"></div>
+			<div class="p-2 col-2 sum">Zwischensumme:</div>
+			<div class="p-2 col-2" id="interSum">0,00 €</div>
+		</div>
 
-			<div class="row ml-5 mr-5 mb-3">
-				<div class="p-2 col-8"></div>
-				<div class="p-2 col-2" id="sum">Mehrwertsteuer:</div>
-				<div class="p-2 col-2">16,88 €</div>
-			</div>
+		<div class="row ml-5 mr-5 mb-3" id="stroke">
+			<div class="p-2 col-8"></div>
+			<div class="p-2 col-2 sum">Versandkosten:</div>
+			<div class="p-2 col-2" id="shipping">0,00 €</div>
+		</div>
 
-			<div class="row ml-5 mr-5 mb-3" id="stroke">
-				<div class="p-2 col-8"></div>
-				<div class="p-2 col-2" id="sum">Versandkosten:</div>
-				<div class="p-2 col-2">20,00 €</div>
-			</div>
+		<div class="row ml-5 mr-5 mb-3">
+			<div class="p-2 col-8"></div>
+			<div class="p-2 col-2 sum">Gesamtkosten:</div>
+			<div class="p-2 col-2" id="allCost">0,00 €</div>
+		</div>
 
-			<div class="row ml-5 mr-5 mb-3">
-				<div class="p-2 col-8"></div>
-				<div class="p-2 col-2" id="sum">Gesamtkosten:</div>
-				<div class="p-2 col-2">65,00 €</div>
-			</div>
-
-			<div class="container-fluid">
-				<a href="bill_adress.html"><button type="button" id="sendbtn"
-						class="col-6 btn align-self-center btn-danger">Zur Kasse</button></a>
-			</div>
-		</form>
+		<div class="container-fluid">
+			<a href="bill_adress.html"><button type="button" id="sendbtn"
+					class="col-6 btn align-self-center btn-danger">Zur Kasse</button></a>
+		</div>
 	</main>
 	<!-- Footer -->
 	<footer class="footer">
