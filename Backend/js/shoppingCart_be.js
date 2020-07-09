@@ -23,7 +23,7 @@ async function dynamise(url, menge, count, warenkorb) {
 		content += '</div>';
 		content += '<div class="col-1"></div>';
 		content += '<div class="col-2" id="number">';
-		content += '<input step="1" data-step-max="10" class="col-4" type="number" id="' + numericInput + '" value="' + menge + '" data-decimals="0" min="1" max="360" onchange="checkCookie(' + obj.id.toString() + ');updateShoppingCart(this);priceCalc(' + obj.bruttopreis + ',' + numericInput + ',' + texti + ',' + obj.pfandstufe.gebuehr + ',' + pfandi + ');sumPrices()" />';
+		content += '<input step="1" data-step-max="10" class="col-4" type="number" id="' + numericInput + '" value="' + menge + '" data-decimals="0" min="1" max="360" oninput="checkCookie(' + obj.id.toString() + ');updateShoppingCart(this);priceCalc(' + obj.bruttopreis + ',' + numericInput + ',' + texti + ',' + obj.pfandstufe.gebuehr + ',' + pfandi + ');sumPrices()" />';
 		content += '</div>';
 		content += '<div class="col-2" id="garbage">';
 		content += '<a onclick="deleteProduct()"><img onclick="checkCookie(' + obj.id.toString() + ')" src="../pictures/delete.png" class="col-3" alt="Produkt"></a>';
@@ -44,14 +44,12 @@ async function dynamise(url, menge, count, warenkorb) {
 function priceCalc(preis, numericInput, texti, pfand, pfandi) {
 	let show = texti;
 	let notShow = pfandi;
-	numericInput.oninput = function () {
-		if (this.value > 0) {
-			preis = this.value * preis;
-			preis = String(preis.toFixed(2));
+	if (numericInput.value > 0) {
+		preis = numericInput.value * preis;
+		preis = preis.toFixed(2) + "";
 
-			show.innerHTML = preis.replace(".", ",") + "&#x20ac";
-			notShow.innerHTML = this.value * pfand;
-		}
+		show.innerHTML = preis.replace(".", ",") + "&#x20ac";
+		notShow.innerHTML = numericInput.value * pfand;
 	}
 }
 
@@ -115,7 +113,7 @@ function sumPrices() {
 
 
 function updateShoppingCart(e) {
-	console.log("updateing shopping cart");
+	console.log("updating shopping cart");
 	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
 	var menge = e.value;
 	for (i = 0; i < warenkorb.length; i++) {

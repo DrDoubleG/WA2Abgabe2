@@ -1,12 +1,11 @@
 
-function priceCalc(preis){
+function priceCalc(preis) {
     let show = document.getElementById("price");
-    document.getElementById("numeric").oninput = function (eve) {
-        if(this.value>0){
-        preis=this.value*preis;
-        preis=String(preis.toFixed(2));
-        show.innerHTML = preis.replace(".",",")+"&#x20ac";
-        }
+    var element = document.getElementById("numeric");
+    if (element.value > 0) {
+        preis = element.value * preis;
+        preis = String(preis.toFixed(2));
+        show.innerHTML = preis.replace(".", ",") + "&#x20ac";
     }
 }
 
