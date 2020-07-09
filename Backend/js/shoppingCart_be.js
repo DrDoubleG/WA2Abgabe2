@@ -12,7 +12,7 @@ async function dynamise(url, menge, count, warenkorb) {
 		var texti = "price" + count;
 		var pfandi = "pfand" + count;
 
-		bruttopreis = ((obj.bruttopreis * menge).toFixed(2).toString()).replace(".", ",");
+		bruttopreis = ((obj.bruttopreis * menge).toFixed(2).replace(".",","));
 		content += '<div class="row m-5 onload="priceCalc(' + obj.bruttopreis + ',' + numericInput + ',' + texti + ')">';
 		content += '<div class="col-1"></div>';
 		content += '<div class="col-2">';
@@ -76,15 +76,16 @@ $(document).ready(async function () {
 			for (j = 0; j < warenkorb.length; j++) {
 				pfandi = "pfand" + j;
 				texti = "price" + j;
-				var pull = document.getElementById(pfandi);
 				var pull2 = document.getElementById(texti);
+				var pull = document.getElementById(pfandi);
 				deposit += parseFloat(pull.innerHTML);
-				interCost += parseFloat(pull2.innerHTML);
+				var stringi = pull2.innerHTML;
+				interCost += parseFloat(stringi.split(" €")[0].replace(",","."));
 			}
-			document.getElementById("deposit").innerHTML = deposit.toFixed(2) + " €";
-			document.getElementById("interSum").innerHTML = (interCost + deposit).toFixed(2) + " €";
+			document.getElementById("deposit").innerHTML = (deposit.toFixed(2)+" €").replace(".",",");
+			document.getElementById("interSum").innerHTML = ((interCost + deposit).toFixed(2)+" €").replace(".",",");
 			document.getElementById("shipping").innerHTML = "20,00 €";
-			document.getElementById("allCost").innerHTML = (deposit + interCost + 20).toFixed(2) + " €";
+			document.getElementById("allCost").innerHTML = ((deposit + interCost + 20).toFixed(2)+" €").replace(".",",");
 
 		}, 3000);
 	}
@@ -98,15 +99,16 @@ function sumPrices() {
 	for (j = 0; j < warenkorb.length; j++) {
 		pfandi = "pfand" + j;
 		texti = "price" + j;
-		var pull = document.getElementById(pfandi);
 		var pull2 = document.getElementById(texti);
+		var pull = document.getElementById(pfandi);
 		deposit += parseFloat(pull.innerHTML);
-		interCost += parseFloat(pull2.innerHTML);
+		var stringi = pull2.innerHTML;
+		interCost += parseFloat(stringi.split(" €")[0].replace(",","."));
 	}
-	document.getElementById("deposit").innerHTML = deposit.toFixed(2) + " €";
-	document.getElementById("interSum").innerHTML = (interCost + deposit).toFixed(2) + " €";
+	document.getElementById("deposit").innerHTML = (deposit.toFixed(2)+" €").replace(".",",");
+	document.getElementById("interSum").innerHTML = ((interCost + deposit).toFixed(2)+" €").replace(".",",");
 	document.getElementById("shipping").innerHTML = "20,00 €";
-	document.getElementById("allCost").innerHTML = (deposit + interCost + 20).toFixed(2) + " €";
+	document.getElementById("allCost").innerHTML = ((deposit + interCost + 20).toFixed(2)+" €").replace(".",",");
 
 
 }
