@@ -49,7 +49,10 @@ async function dynamise2(obj11){
 					var ZahlungsId = x.selectedIndex + 1;
 
 					
-					
+					    if (vorname_1 == null || vorname_1 == ""|| email_1 == null || email_1 == ""|| name_1 == null || name_1 == ""|| strasse_1 == null || strasse_1 == ""|| hausnummer_1 == null || hausnummer_1 == ""|| plz_1 == null || plz_1 == ""|| ort_1 == null || ort_1 == ""|| land_1 == null || land_1 == ""|| vorname_2 == null || vorname_2 == ""|| name_2 == null || name_2 == ""|| strasse_2 == null || strasse_2 == ""|| hausnummer_2 == null || hausnummer_2 == ""|| plz_2 == null || plz_2 == ""|| ort_2 == null || ort_2 == ""|| land_2 == null || land_2 == "") {
+						alert("Bitte alle Felder ausfüllen");
+						return false;
+						}
 					var land_id;
 					var person_id;
 					var kunde_id;
@@ -318,7 +321,10 @@ async function dynamise2(obj11){
 					var x = document.getElementById("inputs_form");
 					var ZahlungsId = x.selectedIndex + 1;
 					
-					
+					if (vorname_1 == null || vorname_1 == ""|| email_1 == null || email_1 == ""|| name_1 == null || name_1 == ""|| strasse_1 == null || strasse_1 == ""|| hausnummer_1 == null || hausnummer_1 == ""|| plz_1 == null || plz_1 == ""|| ort_1 == null || ort_1 == ""|| land_1 == null || land_1 == "") {
+						alert("Bitte alle Felder ausfüllen");
+						return false;
+						}
 					console.log("button senddbtn clicked");
 					var obj = {bezeichnung: land_1}
 					$.ajax({
@@ -541,4 +547,5 @@ async function dynamise2(obj11){
 		
 		}
 		});
+		window.location.href = "order_confirmation.html";
 }
