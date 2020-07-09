@@ -37,7 +37,7 @@ $(document).ready(function () {
                content += '<div class="conatiner-fluid col-12">';
 			   content += '<div class="row mt-5">';
 			   content += '<div class="col-2">';
-			   content += '<a href="product-detail.html" data-toggle="tooltip" title="Produktdetails"><img src="' + obj.produkt.bilder.bildpfad + '" class="pictures" alt="Produkt"></a>';
+			   content += '<a href="product-detail.html" title="Produktdetails"><img src="' + obj.produkt.bilder.bildpfad + '" class="pictures" alt="Produkt"></a>';
 			   content += '</div>';
 			   content += '<div class="col-6" id="product_container">';
 			   content += '<p id="product_discribtion">' + obj.produkt.name + '</p>';

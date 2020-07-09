@@ -16,7 +16,7 @@ async function dynamise(url,menge,count){
 			content += '<div class="row m-5 onload="priceCalc('+ obj.bruttopreis +',' + numericInput +',' + texti +')">';
 			content += '<div class="col-1"></div>';
 			content += '<div class="col-2">';
-			content += '<a href="product-detail.html" data-toggle="tooltip" onclick="checkCookie('+obj.id.toString()+')" title="Produktdetails"><img src="' + obj.bilder.bildpfad + '" class="pictures" alt="Produkt"></a>';
+			content += '<a href="product-detail.html" onclick="checkCookie('+obj.id.toString()+')" title="Produktdetails"><img src="' + obj.bilder.bildpfad + '" class="pictures" alt="Produkt"></a>';
 			content += '</div>';
 			content += '<div class="col-2 " id="shopping">';
 			content += '<span>' + obj.name + '</span>';
