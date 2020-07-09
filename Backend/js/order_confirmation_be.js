@@ -86,5 +86,13 @@ $(document).ready(function () {
             $('#lastTarget').html(content);
 		});
         
-    });
+	});
+	deleteItem();
+	
 });
+
+function deleteItem() {
+  localStorage.removeItem("warenkorb");
+}
+ 
+ 
