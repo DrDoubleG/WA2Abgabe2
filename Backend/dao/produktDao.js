@@ -6,8 +6,6 @@ const PfandstufeDao = require("./pfandstufeDao.js");
 const AngebotDao = require("./angebotDao.js");
 
 
-
-
 class ProduktDao {
 
     constructor(dbConnection) {
@@ -248,11 +246,23 @@ class ProduktDao {
         var pain = pfandstufeDao.loadAll();
         const produktbildDao = new ProduktbildDao(this._conn);
         var pictures = produktbildDao.loadAll();
+        const angebotDao = new AngebotDao(this._conn);
+        var sale = angebotDao.loadAll();
 
 
         var sql = "SELECT * FROM Produkt";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
+
+        
+        var result_sale = this.readSale();
+        var length = Object.keys(result_sale).length;
+        var obj1 = [];
+
+
+        for (var i = 0; i < length; i++) {
+            obj1.push(Object.values(result_sale[i])[0])
+        }
 
         if (helper.isArrayEmpty(result))
             return [];
@@ -295,9 +305,23 @@ class ProduktDao {
             delete result[i].bilder.produkt_id;
             delete result[i].bilder.produkt;
 
-            result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis) * result[i].mehrwertsteuer.steuersatz);
+            if (obj1.includes(parseInt(result[i].id))) {
+                for (var element of sale) {
+                    if (element.produkt_id == result[i].id) {
+                        result[i].angebot = (element);
+                    }
+                }
+                delete result[i].angebot.produkt_id;
+                result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis) * result[i].mehrwertsteuer.steuersatz);
+                var preis = helper.round(result[i].nettopreis + result[i].mehrwertsteueranteil).toFixed(2);
+                result[i].bruttopreis = helper.round(preis * result[i].angebot.rabatt.faktor).toFixed(2); //bruttopreis 
 
-            result[i].bruttopreis = helper.round(result[i].nettopreis + result[i].mehrwertsteueranteil).toFixed(2);
+            }
+            else {
+                result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis) * result[i].mehrwertsteuer.steuersatz);
+                result[i].bruttopreis = helper.round(result[i].nettopreis + result[i].mehrwertsteueranteil).toFixed(2);
+            }
+            
 
         }
 

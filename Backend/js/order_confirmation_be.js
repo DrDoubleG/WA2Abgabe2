@@ -33,8 +33,9 @@ $(document).ready(function () {
 			console.log(obj.produkt.bruttopreis);
 			console.log(obj.produkt.pfandstufe.gebuehr);
 			console.log(obj.menge);
+			var versand = 20;
 			var gesamtpreis = (obj.produkt.bruttopreis* obj.menge +obj.produkt.pfandstufe.gebuehr * obj.menge).toFixed(2);
-			bruttopreis =  parseFloat(bruttopreis) + parseFloat(gesamtpreis);
+			bruttopreis =  (parseFloat(bruttopreis) + parseFloat(gesamtpreis) + versand ).toFixed(2);
 			var gesamtpreis1 = (gesamtpreis.toString()).replace(".", ",");
 
 			console.log(obj.produkt.bilder.bildpfad);
