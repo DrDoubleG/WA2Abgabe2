@@ -16,20 +16,7 @@ serviceRouter.get("/produkt/gib/:id", function(request, response) {
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
-//ZUM TESTEN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-serviceRouter.get("/produkt/test/", function(request, response) {
-    helper.log("Service Produkt: Client requested all records");
 
-    const produktDao = new ProduktDao(request.app.locals.dbConnection);
-    try {
-        var result = produktDao.readSale();
-        helper.log("Service Produkt: Records loaded, count=" + result.length);
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Produkt: Error loading all records. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
 serviceRouter.get("/produkt/empfehlung/", function(request, response) {
     helper.log("Service Produkt: Client requested all records");
 
