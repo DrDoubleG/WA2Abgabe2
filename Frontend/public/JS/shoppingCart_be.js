@@ -147,8 +147,18 @@ function deleteProduct() {
 	localStorage.setItem("warenkorb", warenkorb);
 	console.log(warenkorb);
 	location.href = location.href; // magic reload
-
 }
 
+function checkItem (){
+	console.log("check number of items");
+	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
+	if (warenkorb.length > 0){
+		document.getElementById("sendbtn").disabled = false;
+	}
+
+	else{
+		document.getElementById("sendbtn").disabled = true;
+	}
+}
 
 
