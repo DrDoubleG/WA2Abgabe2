@@ -33,9 +33,9 @@ $(document).ready(function () {
 			console.log(obj.produkt.bruttopreis);
 			console.log(obj.produkt.pfandstufe.gebuehr);
 			console.log(obj.menge);
-			var pfandpreis = (obj.produkt.bruttopreis* obj.menge +obj.produkt.pfandstufe.gebuehr * obj.menge).toFixed(2);
-			bruttopreis = bruttopreis + pfandpreis;
-			var pfandpreis1 = (pfandpreis.toString()).replace(".", ",");
+			var gesamtpreis = (obj.produkt.bruttopreis* obj.menge +obj.produkt.pfandstufe.gebuehr * obj.menge).toFixed(2);
+			bruttopreis =  parseFloat(bruttopreis) + parseFloat(gesamtpreis);
+			var gesamtpreis1 = (gesamtpreis.toString()).replace(".", ",");
 
 			console.log(obj.produkt.bilder.bildpfad);
                content += '<div class="conatiner-fluid col-12">';
@@ -50,7 +50,7 @@ $(document).ready(function () {
 			   content += '<p id="product_discribtion">' + obj.menge+ '</p>';
 			   content += '</div>';
 			   content += '<div class="col-2" id="product_container">';
-			   content += '<p id="product_discribtion">' + pfandpreis1 + ' €</p>';
+			   content += '<p id="product_discribtion">' + gesamtpreis1 + ' €</p>';
 			   content += '</div>';
 			   content += '</div>';
 			   content += '</div>';
@@ -85,15 +85,16 @@ $(document).ready(function () {
 			content += '</div>';
 			content += '</div>';
 			
-			
-
-
 
             $('#lastTarget').html(content);
 		});
+
+		deleteItem();
         
 	});
-
+	function deleteItem() {
+		localStorage.removeItem("warenkorb");
+	  }
 	
 });
 
