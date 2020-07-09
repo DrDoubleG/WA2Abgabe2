@@ -14,7 +14,7 @@ $(document).ready(function () {
 						bestell_id = resp.id;
 						console.log(bestell_id);
     $.ajax({
-        url: "http://localhost:8000/api/bestellposition/produkt/" + bestell_id,
+        url: "http://localhost:8000/api/bestellposition/produkt/" +bestell_id ,
         method: "get",
 		async: false,
         dataType: "json"
@@ -23,15 +23,19 @@ $(document).ready(function () {
         console.log(response);
 
         var content = '';
-
+		var bruttopreis = 0.0;
 
 
         // neuen code zusammensetzen
 
         for (i = 0; i < response.daten.length; i++) {
             var obj = response.daten[i];
-            var bruttopreis;
-            bruttopreis = (obj.produkt.bruttopreis.toString()).replace(".", ",");
+			console.log(obj.produkt.bruttopreis);
+			console.log(obj.produkt.pfandstufe.gebuehr);
+			console.log(obj.menge);
+			var pfandpreis = (obj.produkt.bruttopreis* obj.menge +obj.produkt.pfandstufe.gebuehr * obj.menge).toFixed(2);
+			bruttopreis = bruttopreis + pfandpreis;
+			var pfandpreis1 = (pfandpreis.toString()).replace(".", ",");
 
 			console.log(obj.produkt.bilder.bildpfad);
                content += '<div class="conatiner-fluid col-12">';
@@ -46,20 +50,21 @@ $(document).ready(function () {
 			   content += '<p id="product_discribtion">' + obj.menge+ '</p>';
 			   content += '</div>';
 			   content += '<div class="col-2" id="product_container">';
-			   content += '<p id="product_discribtion">' + obj.produkt.bruttopreis + ' €</p>';
+			   content += '<p id="product_discribtion">' + pfandpreis1 + ' €</p>';
 			   content += '</div>';
 			   content += '</div>';
 			   content += '</div>';
 				
 
             };
+			var erg =(bruttopreis.toString()).replace(".", ",");
 			content += '<p class="underscored"></p>';
 			content += '<div class="conatiner-fluid col-12">';
 			content += '<div class="row mt-5">';
 			content += '<div class="col-10">';
 			content += '</div>';
 			content += '<div class="col-2">';
-			content += '<p id="all_price">18,99 €</p>';
+			content += '<p id="all_price">' + erg + ' €</p>';
 			content += '</div>';
 			content += '</div>';
 			content += '</div>';
@@ -79,20 +84,19 @@ $(document).ready(function () {
 			content += '</div>';
 			content += '</div>';
 			content += '</div>';
+			
+			
 
 
 
-		
             $('#lastTarget').html(content);
 		});
         
 	});
-	deleteItem();
+
 	
 });
 
-function deleteItem() {
-  localStorage.removeItem("warenkorb");
-}
+
  
  
