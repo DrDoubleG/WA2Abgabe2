@@ -47,7 +47,7 @@ try {
 
     // define endpoints for services
     console.log("Binding enpoints...");
-
+    app.use(express.static('serve'));
     // bind root endpoint
     app.get("/", (request, response) => {
         helper.log("Server called without any specification");
