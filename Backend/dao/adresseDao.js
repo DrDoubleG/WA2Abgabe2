@@ -14,7 +14,7 @@ class AdresseDao {
 
     loadById(id) {
         const landDao = new LandDao(this._conn);
-        
+
         var sql = "SELECT * FROM Adresse WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
@@ -23,7 +23,7 @@ class AdresseDao {
             throw new Error("No Record found by id=" + id);
 
         result = helper.objectKeysToLower(result);
-        
+
         return result;
     }
 
@@ -35,7 +35,7 @@ class AdresseDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
 
         result = helper.arrayObjectKeysToLower(result);
@@ -53,7 +53,7 @@ class AdresseDao {
 
         return result;
     }
-	
+
 
     exists(id) {
         var sql = "SELECT COUNT(ID) AS cnt FROM Adresse WHERE ID=?";
@@ -71,20 +71,20 @@ class AdresseDao {
         var params = [strasse, hausnummer, plz, ort, land_id];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
 
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
-    selectLastID(){
+    selectLastID() {
         var sql = "SELECT id FROM Adresse ORDER BY id DESC LIMIT 1";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 

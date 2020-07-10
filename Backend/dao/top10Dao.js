@@ -15,7 +15,7 @@ class Top10Dao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         return helper.objectKeysToLower(result);
@@ -26,9 +26,9 @@ class Top10Dao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 
@@ -37,7 +37,7 @@ class Top10Dao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (result.cnt == 1) 
+        if (result.cnt == 1)
             return true;
 
         return false;

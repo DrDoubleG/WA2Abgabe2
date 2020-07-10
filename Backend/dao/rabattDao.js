@@ -1,6 +1,6 @@
 const helper = require("../helper.js");
 
-class RabattDao{
+class RabattDao {
 
     constructor(dbConnection) {
         this._conn = dbConnection;
@@ -15,7 +15,7 @@ class RabattDao{
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         return helper.objectKeysToLower(result);
@@ -25,9 +25,9 @@ class RabattDao{
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 

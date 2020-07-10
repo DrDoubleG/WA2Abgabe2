@@ -18,7 +18,7 @@ class SearchDao {
         var result = statement.all(searchString.toLowerCase());
         var length = Object.values(result).length;
         var outProducts = [];
-        for(var i=0 ; i<length;i++){
+        for (var i = 0; i < length; i++) {
             outProducts.push(produktDao.loadById(Object.values(Object.values(result)[i])));
         }
         return outProducts;

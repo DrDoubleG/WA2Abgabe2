@@ -15,7 +15,7 @@ class PersonDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         return helper.objectKeysToLower(result);
@@ -26,9 +26,9 @@ class PersonDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 
@@ -37,7 +37,7 @@ class PersonDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (result.cnt == 1) 
+        if (result.cnt == 1)
             return true;
 
         return false;
@@ -49,20 +49,20 @@ class PersonDao {
         var params = [anrede, vorname, name];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
 
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
-    selectLastID(){
+    selectLastID() {
         var sql = "SELECT id FROM Person ORDER BY id DESC LIMIT 1";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 

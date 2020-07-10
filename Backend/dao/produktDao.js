@@ -254,7 +254,7 @@ class ProduktDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        
+
         var result_sale = this.readSale();
         var length = Object.keys(result_sale).length;
         var obj1 = [];
@@ -321,7 +321,7 @@ class ProduktDao {
                 result[i].mehrwertsteueranteil = helper.round((result[i].nettopreis) * result[i].mehrwertsteuer.steuersatz);
                 result[i].bruttopreis = helper.round(result[i].nettopreis + result[i].mehrwertsteueranteil).toFixed(2);
             }
-            
+
 
         }
 

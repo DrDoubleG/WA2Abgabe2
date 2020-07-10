@@ -12,13 +12,13 @@ class BestellungDao {
     getConnection() {
         return this._conn;
     }
-    
+
     loadById(id) {
         const zahlungsartDao = new ZahlungsartDao(this._conn);
         const lieferadresseDao = new LieferadresseDao(this._conn);
         const rechnungsadresseDao = new RechnungsadresseDao(this._conn);
 
-        
+
         var sql = "SELECT * FROM Bestellung WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
@@ -28,17 +28,17 @@ class BestellungDao {
 
         //Zum aufsplitten der Daten 
 
-		
+
         result.zahlungsart = zahlungsartDao.loadById(result.zahlungsart_id);
         delete result.zahlungsart_id;
-		
-		result.lieferadresse = lieferadresseDao.loadById(result.lieferadresse_id);
+
+        result.lieferadresse = lieferadresseDao.loadById(result.lieferadresse_id);
         delete result.lieferadresse_id;
-		
-		result.rechnungsadresse = rechnungsadresseDao.loadById(result.rechnungsadresse_id);
+
+        result.rechnungsadresse = rechnungsadresseDao.loadById(result.rechnungsadresse_id);
         delete result.rechnungsadresse_id;
-		
-        
+
+
         return result;
     }
 
@@ -54,7 +54,7 @@ class BestellungDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
 
         result = helper.arrayObjectKeysToLower(result);
@@ -82,7 +82,7 @@ class BestellungDao {
                 }
             }
             delete result[i].rechnungsadresse_id;
-           
+
         }
 
 
@@ -101,26 +101,26 @@ class BestellungDao {
         return false;
     }
 
-    create(bestellzeitpunkt= "",zahlungsart_id="",lieferadresse_id="",rechnungsadresse_id="") {
+    create(bestellzeitpunkt = "", zahlungsart_id = "", lieferadresse_id = "", rechnungsadresse_id = "") {
         var sql = "INSERT INTO Bestellung (Bestellzeitpunkt, Zahlungsart_ID, Lieferadresse_ID, Rechnungsadresse_ID) VALUES (?,?,?,?)";
         var statement = this._conn.prepare(sql);
         var params = [bestellzeitpunkt, zahlungsart_id, lieferadresse_id, rechnungsadresse_id];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
 
         var newObj = this.loadById(result.lastInsertRowid);
         return newObj;
     }
-    selectLastID(){
+    selectLastID() {
         var sql = "SELECT id FROM Bestellung ORDER BY id DESC LIMIT 1";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 

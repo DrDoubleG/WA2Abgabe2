@@ -1,6 +1,6 @@
 /////////////////
 // workaround / bugfix for linux systems
-Object.fromEntries = l => l.reduce((a, [k,v]) => ({...a, [k]: v}), {})
+Object.fromEntries = l => l.reduce((a, [k, v]) => ({ ...a, [k]: v }), {})
 /////////////////
 
 const helper = require("./helper.js");
@@ -22,15 +22,15 @@ try {
 
     // provide service router with database connection / store the database connection in global server environment
     helper.log("Setup Web Server...");
-    app.locals.dbConnection = dbConnection; 
+    app.locals.dbConnection = dbConnection;
 
 
     // setup server for post data
     const bodyParser = require("body-parser");
-    app.use(bodyParser.urlencoded({ extended: true}));
+    app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
-    app.use(function(request, response, next){
-        response.setHeader("Access-Control-Allow-Origin", "*"); 
+    app.use(function (request, response, next) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
@@ -64,7 +64,7 @@ try {
 
     serviceRouter = require("./services/person.js");
     app.use(TOPLEVELPATH, serviceRouter);
-    
+
     serviceRouter = require("./services/kategorie.js");
     app.use(TOPLEVELPATH, serviceRouter);
 
@@ -76,40 +76,40 @@ try {
 
     serviceRouter = require("./services/produktbild.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/pfandstufe.js");
+
+    serviceRouter = require("./services/pfandstufe.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/produkt.js");
+
+    serviceRouter = require("./services/produkt.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/unsere_empfehlungen.js");
+
+    serviceRouter = require("./services/unsere_empfehlungen.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/top10.js");
+
+    serviceRouter = require("./services/top10.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/angebot.js");
+
+    serviceRouter = require("./services/angebot.js");
     app.use(TOPLEVELPATH, serviceRouter);
 
     serviceRouter = require("./services/bestellung.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/kunde.js");
+
+    serviceRouter = require("./services/kunde.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/lieferadresse.js");
+
+    serviceRouter = require("./services/lieferadresse.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/rechnungsadresse.js");
+
+    serviceRouter = require("./services/rechnungsadresse.js");
     app.use(TOPLEVELPATH, serviceRouter);
-	
-	serviceRouter = require("./services/bestellposition.js");
+
+    serviceRouter = require("./services/bestellposition.js");
     app.use(TOPLEVELPATH, serviceRouter);
 
     serviceRouter = require("./services/search.js");
     app.use(TOPLEVELPATH, serviceRouter);
-    
+
 } catch (ex) {
     helper.logError(ex);
 }

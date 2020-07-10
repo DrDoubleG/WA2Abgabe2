@@ -24,7 +24,7 @@ $(document).ready(function () {
         content += '</a>';
         content += '</div>';
         content += '<div class="img-box">';
-        content += '<a href="product-detail.html"  title="Produktdetails" onclick="checkCookie(' + obj.id.toString() + ')"><img src="' + obj.bilder.bildpfad + '" class="img-responsive img-fluid pictures" alt="Ahornberger würzig 16x0,50L"></a>';
+        content += '<a href="product-detail.html"  title="Produktdetails" onclick="checkCookie(' + obj.id.toString() + ')"><img src="' + obj.bilder.bildpfad + '" class="img-responsive img-fluid pictures" alt=""></a>';
         content += '</div>';
         content += '<div class="row">';
         content += '<p class="item-price col-sm-6" id="price_product"> <span>' + bruttopreis + '&#x20ac</span></p>';
@@ -59,7 +59,7 @@ $(document).ready(function () {
                 content += '</a>';
                 content += '</div>';
                 content += '<div class="img-box">';
-                content += '<a href="product-detail.html"  title="Produktdetails" onclick="checkCookie(' + obj.id.toString() + ')"><img src="' + obj.bilder.bildpfad + '" class="img-responsive img-fluid pictures" alt="Ahornberger würzig 16x0,50L"></a>';
+                content += '<a href="product-detail.html"  title="Produktdetails" onclick="checkCookie(' + obj.id.toString() + ')"><img src="' + obj.bilder.bildpfad + '" class="img-responsive img-fluid pictures" alt=""></a>';
                 content += '</div>';
                 content += '<div class="row">';
                 content += '<p class="item-price col-sm-6" id="price_product"> <span>' + bruttopreis + '&#x20ac</span></p>';
@@ -81,7 +81,7 @@ $(document).ready(function () {
                 content += '</a>';
                 content += '</div>';
                 content += '<div class="img-box">';
-                content += '<a href="product-detail.html"  title="Produktdetails" onclick="checkCookie(' + obj.id.toString() + ')"><img src="' + obj.bilder.bildpfad + '" class="img-responsive img-fluid pictures" alt="Ahornberger würzig 16x0,50L"></a>';
+                content += '<a href="product-detail.html"  title="Produktdetails" onclick="checkCookie(' + obj.id.toString() + ')"><img src="' + obj.bilder.bildpfad + '" class="img-responsive img-fluid pictures" alt=""></a>';
                 content += '</div>';
                 content += '<div class="row">';
                 content += '<p class="item-price col-sm-6" id="price_product" onclick="checkCookie(' + obj.id.toString() + ')"> <span>' + bruttopreis + '&#x20ac</span></p>';

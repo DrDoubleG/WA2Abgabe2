@@ -12,7 +12,7 @@ async function dynamise(url, menge, count, warenkorb) {
 		var texti = "price" + count;
 		var pfandi = "pfand" + count;
 
-		bruttopreis = ((obj.bruttopreis * menge).toFixed(2).replace(".",","));
+		bruttopreis = ((obj.bruttopreis * menge).toFixed(2).replace(".", ","));
 		content += '<div class="row m-5 onload="priceCalc(' + obj.bruttopreis + ',' + numericInput + ',' + texti + ')">';
 		content += '<div class="col-1"></div>';
 		content += '<div class="col-2">';
@@ -78,12 +78,12 @@ $(document).ready(async function () {
 				var pull = document.getElementById(pfandi);
 				deposit += parseFloat(pull.innerHTML);
 				var stringi = pull2.innerHTML;
-				interCost += parseFloat(stringi.split(" €")[0].replace(",","."));
+				interCost += parseFloat(stringi.split(" €")[0].replace(",", "."));
 			}
-			document.getElementById("deposit").innerHTML = (deposit.toFixed(2)+" €").replace(".",",");
-			document.getElementById("interSum").innerHTML = ((interCost + deposit).toFixed(2)+" €").replace(".",",");
+			document.getElementById("deposit").innerHTML = (deposit.toFixed(2) + " €").replace(".", ",");
+			document.getElementById("interSum").innerHTML = ((interCost + deposit).toFixed(2) + " €").replace(".", ",");
 			document.getElementById("shipping").innerHTML = "20,00 €";
-			document.getElementById("allCost").innerHTML = ((deposit + interCost + 20).toFixed(2)+" €").replace(".",",");
+			document.getElementById("allCost").innerHTML = ((deposit + interCost + 20).toFixed(2) + " €").replace(".", ",");
 
 		}, 3000);
 	}
@@ -101,12 +101,12 @@ function sumPrices() {
 		var pull = document.getElementById(pfandi);
 		deposit += parseFloat(pull.innerHTML);
 		var stringi = pull2.innerHTML;
-		interCost += parseFloat(stringi.split(" €")[0].replace(",","."));
+		interCost += parseFloat(stringi.split(" €")[0].replace(",", "."));
 	}
-	document.getElementById("deposit").innerHTML = (deposit.toFixed(2)+" €").replace(".",",");
-	document.getElementById("interSum").innerHTML = ((interCost + deposit).toFixed(2)+" €").replace(".",",");
+	document.getElementById("deposit").innerHTML = (deposit.toFixed(2) + " €").replace(".", ",");
+	document.getElementById("interSum").innerHTML = ((interCost + deposit).toFixed(2) + " €").replace(".", ",");
 	document.getElementById("shipping").innerHTML = "20,00 €";
-	document.getElementById("allCost").innerHTML = ((deposit + interCost + 20).toFixed(2)+" €").replace(".",",");
+	document.getElementById("allCost").innerHTML = ((deposit + interCost + 20).toFixed(2) + " €").replace(".", ",");
 
 
 }
@@ -149,14 +149,14 @@ function deleteProduct() {
 	location.href = location.href; // magic reload
 }
 
-function checkItem (){
+function checkItem() {
 	console.log("check number of items");
 	var warenkorb = JSON.parse(localStorage.getItem('warenkorb'));
-	if (warenkorb.length > 0){
+	if (warenkorb.length > 0) {
 		document.getElementById("sendbtn").disabled = false;
 	}
 
-	else{
+	else {
 		document.getElementById("sendbtn").disabled = true;
 	}
 }

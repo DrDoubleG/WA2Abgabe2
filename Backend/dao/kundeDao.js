@@ -14,7 +14,7 @@ class KundeDao {
 
     loadById(id) {
         const personDao = new PersonDao(this._conn);
-        
+
         var sql = "SELECT * FROM Kunde WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
@@ -23,10 +23,10 @@ class KundeDao {
             throw new Error("No Record found by id=" + id);
 
         result = helper.objectKeysToLower(result);
-		
-		result.person = personDao.loadById(result.person_id);
+
+        result.person = personDao.loadById(result.person_id);
         delete result.person_id;
-        
+
         return result;
     }
 
@@ -38,7 +38,7 @@ class KundeDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
 
         result = helper.arrayObjectKeysToLower(result);
@@ -56,7 +56,7 @@ class KundeDao {
 
         return result;
     }
-	
+
 
     exists(id) {
         var sql = "SELECT COUNT(ID) AS cnt FROM Kunde WHERE ID=?";
@@ -71,10 +71,10 @@ class KundeDao {
     create(email = "", geburtsdatum = "", person_id = "") {
         var sql = "INSERT INTO Kunde (Email,Geburtsdatum,Person_id) VALUES (?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [email,geburtsdatum,person_id];
+        var params = [email, geburtsdatum, person_id];
         var result = statement.run(params);
 
-        if (result.changes != 1) 
+        if (result.changes != 1)
             throw new Error("Could not insert new Record. Data: " + params);
 
         var newObj = this.loadById(result.lastInsertRowid);
@@ -83,14 +83,14 @@ class KundeDao {
 
 
 
-    selectLastID(){
+    selectLastID() {
         var sql = "SELECT id FROM Kunde ORDER BY id DESC LIMIT 1";
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 

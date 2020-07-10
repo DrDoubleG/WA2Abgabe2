@@ -16,14 +16,14 @@ class Unsere_EmpfehlungenDao {
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
-        if (helper.isUndefined(result)) 
+        if (helper.isUndefined(result))
             throw new Error("No Record found by id=" + id);
 
         return helper.objectKeysToLower(result);
-		
-		
-		return result;
-		
+
+
+        return result;
+
     }
 
     loadAll() {
@@ -31,9 +31,9 @@ class Unsere_EmpfehlungenDao {
         var statement = this._conn.prepare(sql);
         var result = statement.all();
 
-        if (helper.isArrayEmpty(result)) 
+        if (helper.isArrayEmpty(result))
             return [];
-        
+
         return helper.arrayObjectKeysToLower(result);
     }
 
