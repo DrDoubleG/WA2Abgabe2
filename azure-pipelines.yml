@@ -17,5 +17,5 @@ steps:
     npm install
     npm test
     echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yam1
+    echo See https://aka.ms/yaml
   displayName: 'npm install and build'
