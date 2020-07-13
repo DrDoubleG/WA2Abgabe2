@@ -17,6 +17,7 @@ steps:
 
 - script: |
     cd Jest
+    npm audit fix
     npm install
     npm test
   displayName: 'npm install and build'
