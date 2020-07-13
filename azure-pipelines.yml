@@ -10,14 +10,12 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+- script: echo Hello, World!
+  displayName: 'Run a one line script'
 
 - script: |
-    cd Jest
-    npm audit fix
     npm install
     npm test
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yam1
   displayName: 'npm install and build'
